@@ -1,12 +1,12 @@
 // 1️⃣ استيراد الصفحات الثابتة والديناميكية وقاعدة البيانات
-import HomePage from "./pages/home.js";
-import NotFoundPage from "./pages/notfound.js";
-import { SearchPage } from "./pages/searchPage.js";
-import { searchDatabase } from "./data/searchData.js";
+import HomePage from "/src/pages/home.js";
+import NotFoundPage from "/src/pages/notfound.js";
+import { searchpage } from "/src/pages/searchpage.js";
+import { searchDatabase } from "/src/data/searchData.js";
 
-import { PersonDetailsPage } from "./pages/details/personDetails.js";
-import { ProductDetailsPage } from "./pages/details/productDetails.js";
-import { TagDetailsPage } from "./pages/details/tagDetails.js";
+import { PersonDetailsPage } from "/src/pages/details/personDetails.js";
+import { ProductDetailsPage } from "/src/pages/details/productDetails.js";
+import { TagDetailsPage } from "/src/pages/details/tagDetails.js";
 
 // 2️⃣ خريطة المسارات الثابتة للموقع
 const pages = {
@@ -52,7 +52,7 @@ const router = () => {
   if (currentPath.startsWith("/search")) {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q") || "";
-    mainContent.innerHTML = SearchPage(query);
+    mainContent.innerHTML = searchpage(query);
     finishLoadingBar();
     return;
   }
@@ -497,7 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (e.target.matches("#sort-posts-btn")) {
-      import("./pages/home.js").then((module) => {
+      import("/src/pages/home.js").then((module) => { 
         const btn = e.target;
         const currentOrder = btn.dataset.order;
         const nextOrder = currentOrder === "latest" ? "oldest" : "latest";
@@ -523,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (e.target.matches(".sort-person-posts-btn")) {
-      import("./pages/details/personDetails.js").then((module) => {
+      import("/src/pages/details/personDetails.js").then((module) => {
         const btn = e.target;
         const personId = btn.dataset.personId;
         const currentOrder = btn.dataset.order;

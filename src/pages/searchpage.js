@@ -6,7 +6,7 @@ const truncateText = (text, maxLength = 100) => {
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 };
 
-export const SearchPage = (query = "") => {
+export const searchpage = (query = "") => {
   if (!query)
     return `<div><h1>صفحة البحث</h1><p>برجاء كتابة كلمة للبحث عنها...</p></div>`;
 
