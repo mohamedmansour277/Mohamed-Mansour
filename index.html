@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta name="description" content="المنصة الرقمية لمحمد منصور حسن">
+  <link rel="shortcut icon" href="/src/assets/icons/fav.svg" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محمد منصور حسن</title>
+  <link rel="stylesheet" href="/src/css/global.css">
+  <link rel="stylesheet" href="/src/css/person.css">
+  <link rel="stylesheet" href="/src/css/home.css">
+  <link rel="stylesheet" href="/src/css/tag.css">
+  <link rel="stylesheet" href="/src/css/search.css">
+  <link rel="stylesheet" href="/src/css/notfound404.css">
+</head>
+
+<body>
+  <div id="top-loading-bar"></div>
+  <header>
+    <nav>
+      <a href="/" class="userLogo" data-link
+        style="text-decoration: none; display: flex; align-items: center; cursor: pointer;">
+        <div class="profilePhoto"></div>
+        <h1>محمد منصور حسن</h1>
+      </a>
+
+      <div class="searchFollowContainer">
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="ابحث..">
+          <button id="search-btn">
+            <img src="/src/assets/icons/search.svg" alt="Profile" width="24">
+          </button>
+          <div id="search-dropdown" class="search-dropdown"></div>
+        </div>
+        <div class="follow-container">
+          <button id="follow-btn">
+            تابــع
+          </button>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+  <main id="main-content"></main>
+
+  <footer>
+    <p> جميع الحقوق محفوظة لمحمد منصور حسن © 2026 </p>
+  </footer>
+  <div id="popup-overlay" class="popup-overlay"></div>
+
+  <div id="follow-popup" class="follow-popup">
+    <div class="popup-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="/src/assets/imgs/MohamedMansour.JPG" alt=""
+          style="width: 100px;border-radius: 10px; object-fit: cover;">
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <h3>محمد منصور حسن</h3>
+          <p>صفحتي الشخصية</p>
+        </div>
+      </div>
+      <div id="close-popup-btn">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="popup-body">
+      <form id="newsletter-form"
+        action="https://script.google.com/macros/s/AKfycbwZ7YRjFHPRIHAjdfmbCMW-3iW5P21yGbv1IC_7LVs8UyM6rkCqXmRKGM5DV5Flnq5M/exec"
+        method="POST" class="subscribe-form" novalidate>
+
+        <div class="input-group">
+          <label for="user-email">بريدك الإلكتروني</label>
+          <input type="email" id="user-email" name="email" placeholder="marhab@feek.com">
+          <span id="email-error" class="error-note"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="user-name">اسمك الأول</label>
+          <input type="text" id="user-name" name="firstName" placeholder="إبــراهيم">
+          <span id="name-error" class="error-note"></span>
+        </div>
+
+        <button type="submit" id="submit-subscribe-btn">
+          <span>تابــع</span>
+        </button>
+      </form>
+
+      <div id="subscribe-success-msg" class="success-message" style="display: none;">
+  <div class="success-content">
+    <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span>متابع</span>
+  </div>
+</div>
+    </div>
+  </div>
+  <script type="module" src="/src/app.js"></script>
+</body>
+
+</html>

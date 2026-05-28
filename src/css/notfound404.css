@@ -1,0 +1,59 @@
+.notFoundCard {
+  text-align: center;
+  padding: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.notFoundCard img {
+  width: 200px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.notFoundCard h1 {
+  font-size: 2em;
+  color: var(--mainColor);
+  margin-bottom: 10px;
+}
+.notFoundCard p {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .notFoundCard {
+    padding: 20px;
+  }
+  .notFoundCard img {
+    width: 150px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  .notFoundCard h1 {
+    font-size: 1.5rem;
+  }
+  .notFoundCard p {
+    font-size: 1rem;
+  }
+  
+}
+@media (max-width: 500px) {
+  .notFoundCard {
+    padding: 10px;
+  }
+  .notFoundCard img {
+    width: 100px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  .notFoundCard h1 {
+    font-size: 1.2rem;
+  }
+  .notFoundCard p {
+    font-size: 0.9rem;
+  }
+}
