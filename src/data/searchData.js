@@ -8,7 +8,7 @@ export const searchDatabase = [
     type: "people",
     title: "محمد منصور حسن",
     username: "mohamedmansour",
-    desc: "مصمم ومطور رقمي",
+    desc: "محمد منصور حسن mohamedmansour",
     img: "/src/assets/imgs/MohamedMansour.JPG",
     details: {
       role: "مصمم ومطور رقمي",
@@ -114,6 +114,44 @@ export const searchDatabase = [
       
     },
   },
+  {
+    id: 2002, 
+    type: "products", // نوع العنصر وثابت لجميع المنتجات
+    title: "ترافيلو - Travelo",
+    username: "travelo", // اسم المستخدم الخاص بك (اختياري، لكن يضيف لمسة شخصية)
+    desc: "موقع تدريبي لشركة افتراضية باسم Travelo يقدم خدمات التنقل والتواصل مع المسافرين والمحامين بشكل مجاني ومتميز على الأنظمة المتعددة والاقتصادية للشركات العامة في منطقة أمريكا الوسطى والمتحدة.",
+    img: "/src/assets/icons/travelo.svg", // مسار لوجو أو صورة المنتج الدائرية
+    isOwner: true,
+    // 🎯 هنا التفاصيل المتقدمة اللي الصفحة الجديدة معتمدة عليها بالكامل:
+    details: {
+      concept:
+          "منصة Travelo الرقمية: موقع تدريبي وبنية برمجية متكاملة لشركة افتراضية متخصصة في تقديم خدمات التنقل الذكي، الربط اللوجستي، والتواصل الفوري بين المسافرين والمستشارين القانونيين والمحامين بشكل مجاني ومتميز. تم تطوير واجهات المشروع برمجياً بالاعتماد على لغات الويب الأساسية (HTML5, CSS3, JavaScript) مع دمج جزئي وبسيط لمكتبة Bootstrap في عناصر محددة لتوفير مرونة وتجاوب إضافي، مما يضمن تحقيق أعلى معدلات الاستجابة والأداء العالي للأنظمة المتعددة والاقتصادية التي تخدم الشركات العامة في منطقة أمريكا الوسطى والمتحدة.",
+          liveUrl: "https://fci-aru.vercel.app/", // رابط معاينة الموقع الحي (الزرار الأخضر)
+
+      dateFinished: "2025-9-14", // تاريخ انتهاء المشروع (هيتحول تلقائياً لـ: 20 مايو 2026)
+
+      // 👥 الأيدي الخاص بالمطورين المشاركين في المشروع (لازم الأرقام دي تطابق id أشخاص موجودين في نفس قاعدة البيانات)
+      teamIds: [0 , 6, 7,8],
+
+      facebookLink: "",
+      instagramLink: "",
+      linkedinLink: "",
+      githubLink: "",
+      tiktokLink: "",
+      // 🛠️ المصفوفة الخاصة بالتقنيات المستخدمة في بناء المنتج
+      tools: [
+        "Vercel",
+        "Google Font Api",
+        "JavaScript (ES6+)",
+        "Figma (UI/UX)",
+        "HTML5",
+        "CSS3",
+        "Bootstrap",
+      ],
+      
+    },
+  },
+
   // {
   //   id: 2002, 
   //   type: "products", // نوع العنصر وثابت لجميع المنتجات
@@ -174,7 +212,7 @@ export const searchDatabase = [
     type: "people",
     title: "آدم محمد سلامة",
     username: "adam-mohamed",
-    desc: "مطور واجهة خلفية",
+    desc: "ادم محمد سلامة adam mohamed",
     img: "https://media.licdn.com/dms/image/v2/D4D03AQFYkmNKHBJRFw/profile-displayphoto-scale_400_400/B4DZuxVw10JgAg-/0/1768206831774?e=1781136000&v=beta&t=2ZjxkhRh-tVEr4FnREWWqNeZ1omfwRU-iHqZ-QNXxTg",
     facebookLink: "",
     instagramLink: "",
@@ -193,7 +231,7 @@ export const searchDatabase = [
     type: "people",
     title: "كريم وائل محمد",
     username: "kareem-wael",
-    desc: "مصمم ومطور ويب",
+    desc: "كريم وائل محمد kareem wael",
     img: "https://media.licdn.com/dms/image/v2/D5603AQHEf_iEaRc34w/profile-displayphoto-shrink_200_200/B56Zedu.qaHEAY-/0/1750698030187?e=1781136000&v=beta&t=QkJPw9WLM2zFHfbWoDzuobJ6c_fgaVx3Nh2DN8r3AMs",
     facebookLink: "",
     instagramLink: "",
@@ -211,7 +249,7 @@ export const searchDatabase = [
     type: "people",
     title: "عمر محمود الليثي",
     username: "omar-mahmoud",
-    desc: "مطور ويب",
+    desc: "عمر محمود الليثي omar mahmoud",
     img: "https://media.licdn.com/dms/image/v2/D4D03AQGiU9MiWitJZA/profile-displayphoto-crop_800_800/B4DZ2bw4B0I4AQ-/0/1776434791376?e=1781136000&v=beta&t=0ZYCYqy_WKZ0Qg100eSbgqIRWjCTap2iuWR4KS1MO-8",
     facebookLink: "",
     instagramLink: "",
@@ -229,7 +267,7 @@ export const searchDatabase = [
     type: "people",
     title: "علي نصار",
     username: "ali-nassar",
-    desc: "مطور ويب",
+    desc: "علي نصار ali nassar",
     img: "https://media.licdn.com/dms/image/v2/D4E03AQFDK6FIRr5dwQ/profile-displayphoto-crop_800_800/B4EZtdCpDGJwAM-/0/1766792534327?e=1781136000&v=beta&t=IoygbfQ2aJXT771quZX9Ck-whJwi8y9ZnnAcYZY8_lM",
     facebookLink: "",
     instagramLink: "",
@@ -247,7 +285,8 @@ export const searchDatabase = [
     type: "people",
     title: "سيف الدين عابد",
     username: "saif-abed",
-    desc: "فل ستاك",
+    desc: 
+    " سيف الدين عابد saif abed seif",
     img: "https://media.licdn.com/dms/image/v2/D4E03AQH1b2kg_cbMXw/profile-displayphoto-crop_800_800/B4EZj2ltgNIIAI-/0/1756483740772?e=1781740800&v=beta&t=UKXCRFVd0xPrmtNtFg0rKx7KgvGwWB4aKDqeisByKWY",
     facebookLink: "",
     instagramLink: "",
@@ -257,6 +296,63 @@ export const searchDatabase = [
     details: {
       role: "فل ستاك",
       bio: "مطور واجهة أمامية يركز على بناء وتأمين واجهات المستخدم وتصميم تجارب تصفح ممتازة للمشاريع. يمتلك مهارة في كتابة الكود النظيف وإدارة البيانات بكفاءة، مما يجعله شريكاً تقنياً يعتمد عليه في تحويل الأفكار إلى بنية برمجية قابلة للتوسع.",
+      isOwner: false,
+    },
+  },
+  {
+    id: 6,
+    type: "people",
+    title: "محمد حسن",
+    username: "mohamed-hassan",
+    desc: 
+      " محمد حسن mohamed hassan",
+    img: "https://media.licdn.com/dms/image/v2/D4D35AQGxLPC95mn8jQ/profile-framedphoto-shrink_800_800/B4DZ2WB058HYAg-/0/1776338554848?e=1780664400&v=beta&t=mHvEq5JvfhMQlziWQvZ9hfSFzDhRoWqf2ar12Hp4R-4",
+    facebookLink: "",
+    instagramLink: "",
+    linkedinLink: "",
+    githubLink: "",
+    tiktokLink: "",
+    details: {
+      role: "مطور واجهة أمامية",
+      bio: "مطور واجهة أمامية يركز على بناء وتأمين واجهات المستخدم وتصميم تجارب تصفح ممتازة للمشاريع. يمتلك مهارة في كتابة الكود النظيف وإدارة البيانات بكفاءة، مما يجعله شريكاً تقنياً يعتمد عليه في تحويل الأفكار إلى بنية برمجية قابلة للتوسع.",
+      isOwner: false,
+    },
+  },
+  {
+    id: 7,
+    type: "people",
+    title: "أمل مدحت",
+    username: "aml-medhat",
+    desc:
+      " امل مدحت aml medhat amal medhat",
+    img: "",
+    facebookLink: "",
+    instagramLink: "",
+    linkedinLink: "",
+    githubLink: "",
+    tiktokLink: "",
+    details: {
+      role: "مطور واجهة أمامية",
+      bio: "مطورة واجهة أمامية تعتمد في بناء وتأمين واجهات المستخدم وتصميم تجارب تصفح ممتازة للمشاريع. تمتلك مهارة في كتابة الكود النظيف وإدارة البيانات بكفاءة، مما يجعلها شريكاً تقنياً يعتمد عليه في تحويل الأفكار إلى بنية برمجية قابلة للتوسع.",
+      isOwner: false,
+    },
+  },
+  {
+    id: 8,
+    type: "people",
+    title: "آيه محمد",
+    username: "aya-mohamed",
+    desc: 
+      "ايه محمد aya mohamed ",
+    img: "",
+    facebookLink: "",
+    instagramLink: "",
+    linkedinLink: "",
+    githubLink: "",
+    tiktokLink: "",
+    details: {
+      role: "مطور واجهة أمامية",
+      bio: "مطورة واجهة أمامية تعتمد في بناء وتأمين واجهات المستخدم وتصميم تجارب تصفح ممتازة للمشاريع. تمتلك مهارة في كتابة الكود النظيف وإدارة البيانات بكفاءة، مما يجعلها شريكاً تقنياً يعتمد عليه في تحويل الأفكار إلى بنية برمجية قابلة للتوسع.",
       isOwner: false,
     },
   },

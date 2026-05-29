@@ -684,7 +684,7 @@ footer {
   /* border-radius: 12px; */
   padding: 10px 0px;
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .team-photo {
@@ -733,7 +733,7 @@ footer {
   background: var(--bgColor);
   padding: 10px 0px;
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 .product-tool-tag .tag-icon {
   width: 16px;

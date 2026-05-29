@@ -4,7 +4,7 @@ const NotFoundPage = /* html */ `
         <h1>404 - الصفحة غير موجودة</h1>
         <p>نعتذر، يبدو أنك ضللت الطريق أو كتبت مساراً خاطئاً.</p>
         <br>
-        <a href="/" class="btn-test" data-link>العودة للأمان</a>
+        <a href="/" class="btn-test" style="background: var(--mainColor); color: var(--whiteColor); padding: 8px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;" data-link>العودة للأمان</a>
     </div>
 `;
 export default NotFoundPage;
