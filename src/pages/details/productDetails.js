@@ -84,7 +84,7 @@ export const ProductDetailsPage = (id) => {
             <div class="hero-name-row">
               <h1>${product.title}</h1>
               ${
-                (product.isOwner === true || product.details?.isOwner === true)
+                product.isOwner === true || product.details?.isOwner === true
                   ? `
                 <svg class="verified-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.92 8.6 1.5 6.71 4.7l-3.61.81.34 3.68L1 12l2.44 2.79-.34 3.69 3.61.82 1.89 3.2 3.4-1.42 3.4 1.41 1.89-3.2 3.61-.82-.34-3.68L23 12zm-13 5l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>

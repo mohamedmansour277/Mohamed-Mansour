@@ -126,7 +126,7 @@ export const searchDatabase = [
     details: {
       concept:
           "منصة Travelo الرقمية: موقع تدريبي وبنية برمجية متكاملة لشركة افتراضية متخصصة في تقديم خدمات التنقل الذكي، الربط اللوجستي، والتواصل الفوري بين المسافرين والمستشارين القانونيين والمحامين بشكل مجاني ومتميز. تم تطوير واجهات المشروع برمجياً بالاعتماد على لغات الويب الأساسية (HTML5, CSS3, JavaScript) مع دمج جزئي وبسيط لمكتبة Bootstrap في عناصر محددة لتوفير مرونة وتجاوب إضافي، مما يضمن تحقيق أعلى معدلات الاستجابة والأداء العالي للأنظمة المتعددة والاقتصادية التي تخدم الشركات العامة في منطقة أمريكا الوسطى والمتحدة.",
-          liveUrl: "https://fci-aru.vercel.app/", // رابط معاينة الموقع الحي (الزرار الأخضر)
+          liveUrl: "https://travelo-livid.vercel.app/", // رابط معاينة الموقع الحي (الزرار الأخضر)
 
       dateFinished: "2025-9-14", // تاريخ انتهاء المشروع (هيتحول تلقائياً لـ: 20 مايو 2026)
 
@@ -216,7 +216,7 @@ export const searchDatabase = [
     img: "https://media.licdn.com/dms/image/v2/D4D03AQFYkmNKHBJRFw/profile-displayphoto-scale_400_400/B4DZuxVw10JgAg-/0/1768206831774?e=1781136000&v=beta&t=2ZjxkhRh-tVEr4FnREWWqNeZ1omfwRU-iHqZ-QNXxTg",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/adam-mohamed-0255932b8/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -235,7 +235,7 @@ export const searchDatabase = [
     img: "https://media.licdn.com/dms/image/v2/D5603AQHEf_iEaRc34w/profile-displayphoto-shrink_200_200/B56Zedu.qaHEAY-/0/1750698030187?e=1781136000&v=beta&t=QkJPw9WLM2zFHfbWoDzuobJ6c_fgaVx3Nh2DN8r3AMs",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/kareem-w-2a2769325/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -253,7 +253,7 @@ export const searchDatabase = [
     img: "https://media.licdn.com/dms/image/v2/D4D03AQGiU9MiWitJZA/profile-displayphoto-crop_800_800/B4DZ2bw4B0I4AQ-/0/1776434791376?e=1781136000&v=beta&t=0ZYCYqy_WKZ0Qg100eSbgqIRWjCTap2iuWR4KS1MO-8",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/omar-ellithey/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -271,7 +271,7 @@ export const searchDatabase = [
     img: "https://media.licdn.com/dms/image/v2/D4E03AQFDK6FIRr5dwQ/profile-displayphoto-crop_800_800/B4EZtdCpDGJwAM-/0/1766792534327?e=1781136000&v=beta&t=IoygbfQ2aJXT771quZX9Ck-whJwi8y9ZnnAcYZY8_lM",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/aly-nassar-168452389/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -290,7 +290,7 @@ export const searchDatabase = [
     img: "https://media.licdn.com/dms/image/v2/D4E03AQH1b2kg_cbMXw/profile-displayphoto-crop_800_800/B4EZj2ltgNIIAI-/0/1756483740772?e=1781740800&v=beta&t=UKXCRFVd0xPrmtNtFg0rKx7KgvGwWB4aKDqeisByKWY",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/saif-abed-10433a372/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -309,7 +309,7 @@ export const searchDatabase = [
     img: "https://media.licdn.com/dms/image/v2/D4D35AQGxLPC95mn8jQ/profile-framedphoto-shrink_800_800/B4DZ2WB058HYAg-/0/1776338554848?e=1780664400&v=beta&t=mHvEq5JvfhMQlziWQvZ9hfSFzDhRoWqf2ar12Hp4R-4",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/mohamed-hassan-273b81298/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -321,14 +321,14 @@ export const searchDatabase = [
   {
     id: 7,
     type: "people",
-    title: "أمل مدحت",
+    title: "أمل المسلماني",
     username: "aml-medhat",
     desc:
-      " امل مدحت aml medhat amal medhat",
+      " امل مدحت aml medhat amal elmosalamany",
     img: "",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/aml-elmoslamany-258b72320/",
     githubLink: "",
     tiktokLink: "",
     details: {
@@ -347,7 +347,7 @@ export const searchDatabase = [
     img: "",
     facebookLink: "",
     instagramLink: "",
-    linkedinLink: "",
+    linkedinLink: "https://www.linkedin.com/in/aya-mohammed-2260a8379/",
     githubLink: "",
     tiktokLink: "",
     details: {

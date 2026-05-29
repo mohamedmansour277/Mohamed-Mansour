@@ -64,16 +64,35 @@ export const renderPersonPosts = (personId, sortOrder = "latest") => {
     .join("");
 };
 
-// 🎯 دالة مساعدة لإنشاء كروت المنتجات بناءً على المسار الذكي الجديد
+// 🎯 دالة مساعدة لإنشاء كروت المنتجات مع عرض روابط السوشيال ميديا الخاصة بكل منتج ديناميكياً
 const generateProductsHtml = (products) => {
   return products
-    .map(
-      (prod) => `
-    <a href="${getSmartRoute(prod, "product")}" class="product-card-item" data-link title="${prod.title}">
-      <img src="${prod.img}" onerror="this.onerror=null; this.src='/src/assets/imgs/nopic.jpg';" alt="${prod.title}">
-    </a>
-  `,
-    )
+    .map((prod) => {
+      const pd = prod.details;
+      let socialIconsHtml = "";
+
+      // فحص جلب الروابط بنفس المفاتيح المستخدمة في صفحة الـ Product الشهيرة عندك
+      if (pd) {
+        socialIconsHtml = `
+          <div class="product-card-social-links">
+            ${pd.githubLink && pd.githubLink.trim() !== "" && pd.githubLink !== "#" ? `<a href="${pd.githubLink}" target="_blank" title="GitHub"><img width="18" height="18" src="/src/assets/icons/github.svg" alt="GitHub"></a>` : ""}
+            ${pd.linkedinLink && pd.linkedinLink.trim() !== "" && pd.linkedinLink !== "#" ? `<a href="${pd.linkedinLink}" target="_blank" title="LinkedIn"><img width="18" height="18" src="/src/assets/icons/linkedin.svg" alt="LinkedIn"></a>` : ""}
+            ${pd.facebookLink && pd.facebookLink.trim() !== "" && pd.facebookLink !== "#" ? `<a href="${pd.facebookLink}" target="_blank" title="Facebook"><img width="18" height="18" src="/src/assets/icons/facebook.svg" alt="Facebook"></a>` : ""}
+            ${pd.instagramLink && pd.instagramLink.trim() !== "" && pd.instagramLink !== "#" ? `<a href="${pd.instagramLink}" target="_blank" title="Instagram"><img width="18" height="18" src="/src/assets/icons/instagram.svg" alt="Instagram"></a>` : ""}
+            ${pd.tiktokLink && pd.tiktokLink.trim() !== "" && pd.tiktokLink !== "#" ? `<a href="${pd.tiktokLink}" target="_blank" title="TikTok"><img width="18" height="18" src="/src/assets/icons/tiktok.svg" alt="TikTok"></a>` : ""}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="product-card-wrapper" style="position: relative;">
+          <a href="${getSmartRoute(prod, "product")}" class="product-card-item" data-link title="${prod.title}">
+            <img src="${prod.img}" onerror="this.onerror=null; this.src='/src/assets/imgs/nopic.jpg';" alt="${prod.title}">
+          </a>
+          ${socialIconsHtml}
+        </div>
+      `;
+    })
     .join("");
 };
 
@@ -162,12 +181,13 @@ export const PersonDetailsPage = (id) => {
                 <span class="stat-badge projects-badge">${personProducts.length} منتج</span>
               </div>
               <p class="hero-bio-text">${d.bio}</p>
+              
               <div class="social-left-aside">
-                ${d.social?.github && d.social.github.trim() !== "" && d.social.github !== "#" ? `<a href="${d.social.github}" target="_blank" title="GitHub"><img width="24" height="24" src="/src/assets/icons/github.svg" alt="GitHub"></a>` : ""}
-                ${d.social?.linkedin && d.social.linkedin.trim() !== "" && d.social.linkedin !== "#" ? `<a href="${d.social.linkedin}" target="_blank" title="LinkedIn"><img width="24" height="24" src="/src/assets/icons/linkedin.svg" alt="LinkedIn"></a>` : ""}
-                ${d.social?.facebook && d.social.facebook.trim() !== "" && d.social.facebook !== "#" ? `<a href="${d.social.facebook}" target="_blank" title="Facebook"><img width="24" height="24" src="/src/assets/icons/facebook.svg" alt="Facebook"></a>` : ""}
-                ${d.social?.instagram && d.social.instagram.trim() !== "" && d.social.instagram !== "#" ? `<a href="${d.social.instagram}" target="_blank" title="Instagram"><img width="24" height="24" src="/src/assets/icons/instagram.svg" alt="Instagram"></a>` : ""}
-                ${d.social?.tiktok && d.social.tiktok.trim() !== "" && d.social.tiktok !== "#" ? `<a href="${d.social.tiktok}" target="_blank" title="TikTok"><img width="24" height="24" src="/src/assets/icons/tiktok.svg" alt="TikTok"></a>` : ""}
+                ${person.githubLink && person.githubLink.trim() !== "" && person.githubLink !== "#" ? `<a href="${person.githubLink}" target="_blank" title="GitHub"><img width="24" height="24" src="/src/assets/icons/github.svg" alt="GitHub"></a>` : ""}
+                ${person.linkedinLink && person.linkedinLink.trim() !== "" && person.linkedinLink !== "#" ? `<a href="${person.linkedinLink}" target="_blank" title="LinkedIn"><img width="24" height="24" src="/src/assets/icons/linkedin.svg" alt="LinkedIn"></a>` : ""}
+                ${person.facebookLink && person.facebookLink.trim() !== "" && person.facebookLink !== "#" ? `<a href="${person.facebookLink}" target="_blank" title="Facebook"><img width="24" height="24" src="/src/assets/icons/facebook.svg" alt="Facebook"></a>` : ""}
+                ${person.instagramLink && person.instagramLink.trim() !== "" && person.instagramLink !== "#" ? `<a href="${person.instagramLink}" target="_blank" title="Instagram"><img width="24" height="24" src="/src/assets/icons/instagram.svg" alt="Instagram"></a>` : ""}
+                ${person.tiktokLink && person.tiktokLink.trim() !== "" && person.tiktokLink !== "#" ? `<a href="${person.tiktokLink}" target="_blank" title="TikTok"><img width="24" height="24" src="/src/assets/icons/tiktok.svg" alt="TikTok"></a>` : ""}
               </div>
             </div>
           </div>
