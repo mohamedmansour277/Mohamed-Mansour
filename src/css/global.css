@@ -146,28 +146,37 @@ nav {
   gap: 10px;
 }
 .follow-container {
-  width: 60px;
+  width: fit-content;
   height: 40px;
-  background: var(--mainColor);
-  border-radius: 5px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  background: var(--mainColor); /* الخلفية الخضراء الأصلية */
+  /* 🌟 التعديل السحري: لو الحاوية جواها زرار مشترك، اقلب خلفيتها هي كمان */
+  &:has(.subscribed) {
+    background: transparent !important; /* أو خليه var(--bgColor) حسب رغبتك */
+    border: none !important;
+  }
+
   button {
-    width: 100%;
+    border-radius: 8px;
+    padding: 0px 15px;
+    width: fit-content;
     height: 100%;
     background: transparent;
     border: none;
     cursor: pointer;
     color: var(--whiteColor);
     font-size: 16px;
+    font-weight: 500;
     font-family: var(--mainFont);
   }
 }
 
 .follow-container:hover {
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .search-container {
@@ -736,6 +745,7 @@ footer {
   font-size: 1.05rem;
   color: #555;
   line-height: 1.8;
+  text-align: justify;
 }
 
 /* الستايل الأساسي لزرار الذهاب للموقع */
@@ -944,3 +954,18 @@ footer {
 .view-all-results-btn:hover svg {
   transform: translateX(-4px); /* الـ Micro-interaction اللطيف */
 }
+
+
+/* مثال لستايل الزرار عند المتابعة الفعالة */
+.subscribed {
+  background-color: var(--blackColor) !important; 
+  color: var(--whiteColor) !important;            
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: default;
+}
+
+/* 📱 تنسيقات الموبايل المتجاوبة */

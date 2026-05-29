@@ -22,11 +22,9 @@ const fetchLiveFollowers = async () => {
     }
   } catch (error) {
     followersText.textContent = `مشكلة في جلب المتابعين`;
-    console.log("تعذر جلب البيانات من الشيت، تم عرض العدد الافتراضي.");
   }
 };
 
-// 🕵️ دالة جلب وحساب المنشورات بناءً على الفلتر والترتيب ديناميكياً
 // 🕵️ دالة جلب وحساب المنشورات بناءً على الفلتر والترتيب ديناميكياً
 export const renderHomePosts = () => {
   let posts = searchDatabase.filter(
@@ -72,29 +70,29 @@ export const renderHomePosts = () => {
 
   return posts
     .map((post) => {
-  // ترجمة نوع الفئة الخاصة بالمنشور
-  const categoryLabel = post.postCategory === "tech" ? "منشور تقني" : "منشور رياضي";
+      // ترجمة نوع الفئة الخاصة بالمنشور
+      const categoryLabel = post.postCategory === "tech" ? "منشور تقني" : "منشور رياضي";
 
-  // 🎯 توليد الرابط الذكي: لو متوفر username يروح لـ /@username، غير كده يرجع للـ id القديم كـ Fallback
-  const smartPostRoute = post.username ? `/@${post.username.toLowerCase()}` : `/tag/${post.id}`;
+      // 🎯 توليد الرابط الذكي
+      const smartPostRoute = post.username ? `/@${post.username.toLowerCase()}` : `/tag/${post.id}`;
 
-  return `
-    <a href="${smartPostRoute}" class="post-item-card" data-link>
-      <img src="${post.img}" onerror="this.onerror=null; this.src='/src/assets/imgs/nopic.jpg';" class="post-card-image" alt="${post.title}">
-      
-      <div class="post-card-content">
-        <h4 class="post-card-title">${post.title}</h4>
-        <p class="post-card-desc">${post.desc}</p>
-        <div class="post-card-meta">
-          <span class="post-cat-label">${categoryLabel}</span>
-          <span class="post-meta-dot">•</span>
-          <span class="post-date-label">${formatArabicDate(post.date)}</span>
-        </div>
-      </div>
-    </a>
-  `;
-})
-.join("");
+      return `
+        <a href="${smartPostRoute}" class="post-item-card" data-link>
+          <img src="${post.img}" onerror="this.onerror=null; this.src='/src/assets/imgs/nopic.jpg';" class="post-card-image" alt="${post.title}">
+          
+          <div class="post-card-content">
+            <h4 class="post-card-title">${post.title}</h4>
+            <p class="post-card-desc">${post.desc}</p>
+            <div class="post-card-meta">
+              <span class="post-cat-label">${categoryLabel}</span>
+              <span class="post-meta-dot">•</span>
+              <span class="post-date-label">${formatArabicDate(post.date)}</span>
+            </div>
+          </div>
+        </a>
+      `;
+    })
+    .join("");
 };
 
 // 📦 دالة رندر المنتجات
@@ -143,17 +141,17 @@ export const initHomeListeners = () => {
   // 🎯 المستمع العام المطور لإظهار وإغلاق الـ Popup بسلاسة ودون تعليق
   if (!window.hasFollowListener) {
     document.addEventListener("click", (e) => {
-      const followBtnBottom = e.target.closest("#hero-follow-btn-bottom");
+      // رصد أي زر يحمل الـ ID أو الكلاسات الخاصة بالمتابعة في الرئيسية أو الناف بار
+      const followBtnBottom = e.target.closest("#hero-follow-btn-bottom") || e.target.closest("#follow-btn") || e.target.closest(".open-follow") || e.target.closest(".follow-btn");
 
-      // 1. منطق الفتح عند الضغط على زر المتابعة بالرئيسية
+      // 1. منطق الفتح عند الضغط على زر المتابعة (فقط لو مش subscribed)
       if (
         followBtnBottom &&
         !followBtnBottom.classList.contains("subscribed")
       ) {
-        console.log("تم رصد الضغطة! جاري إظهار الخلفية والكارت التفاعلي...");
 
-        if (typeof openPopup === "function") {
-          openPopup();
+        if (typeof window.openFollowPopup === "function") {
+          window.openFollowPopup();
           return;
         }
 
@@ -188,11 +186,11 @@ export const initHomeListeners = () => {
         e.target.closest(".close-popup-btn") ||
         e.target.closest("[data-close-popup]") ||
         e.target.closest(".close-btn");
-      const clickedOverlay = e.target.matches(".popup-overlay");
+      const clickedOverlay = e.target.matches(".popup-overlay") || e.target.matches("#popup-overlay");
 
       if (closeBtn || clickedOverlay) {
-        const overlay = document.querySelector(".popup-overlay");
-        const innerPopup = document.querySelector(".follow-popup");
+        const overlay = document.querySelector(".popup-overlay") || document.getElementById("popup-overlay");
+        const innerPopup = document.querySelector(".follow-popup") || document.getElementById("follow-popup");
 
         if (overlay) {
           overlay.style.removeProperty("display");
@@ -219,24 +217,9 @@ export const initHomeListeners = () => {
   // 🔄 تحديث الأزرار فوراً عند نجاح الاشتراك واختفاء الفقعة
   window.addEventListener("subscriptionSuccess", () => {
     fetchLiveFollowers();
-
-    const btnBottom = document.getElementById("hero-follow-btn-bottom");
-    const btnTop = document.querySelector(
-      ".hero-follow-btn:not(#hero-follow-btn-bottom)",
-    );
-
-    const followBadgeHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
-      <span>متابع</span>
-    `;
-
-    if (btnBottom) {
-      btnBottom.classList.add("subscribed");
-      btnBottom.innerHTML = followBadgeHTML;
-    }
-    if (btnTop) {
-      btnTop.classList.add("subscribed");
-      btnTop.innerHTML = followBadgeHTML;
+    // استدعاء الدالة الموحدة الموجودة في الناف بار/الملف الرئيسي لتحديث الكل معاً
+    if (typeof window.syncFollowButtonsState === "function") {
+      window.syncFollowButtonsState();
     }
   });
 
@@ -352,10 +335,15 @@ const HomePage = () => {
     },
   };
 
+  // 🎯 تعديل المفتاح هنا ليصبح الموحد في المشروع بالكامل لثبات الحالة
   const isSubscribed = localStorage.getItem("isSubscribed") === "true";
 
   setTimeout(() => {
     initHomeListeners();
+    // مزامنة الأزرار فوراً بعد بناء مكون الصفحة
+    if (typeof window.syncFollowButtonsState === "function") {
+      window.syncFollowButtonsState();
+    }
   }, 50);
 
   return /*html*/ `

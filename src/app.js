@@ -36,6 +36,62 @@ const finishLoadingBar = () => {
 };
 // ─────────────────────────────────────────────────────────────────────────
 
+// 🌟 [دالة تحديث أزرار المتابعة الموحدة والستايل المشترك]
+// 🌟 [دالة تحديث أزرار المتابعة الموحدة والستايل المشترك بدون علامة صح في الناف بار]
+const updateFollowButtons = () => {
+  // توحيد قراءة المفتاح ليطابق home.js وهو isSubscribed
+  const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+  
+  // لقط كل أزرار المتابعة المتاحة في الـ DOM
+  const followButtons = document.querySelectorAll("#follow-btn, .open-follow, .follow-btn, #hero-follow-btn-bottom");
+  
+  // الكود الخاص بزر الصفحة الرئيسية (يحتوي على علامة الصح)
+  const mainHeroBadgeHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px; display: inline-block; vertical-align: middle;">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span>متابع</span>
+  `;
+
+  // الكود الخاص بزر الناف بار (نص فقط "متابع" بدون أيقونة الصح)
+  const navbarBadgeHTML = `<span>متابع</span>`;
+
+  followButtons.forEach((btn) => {
+    if (isSubscribed) {
+      // فحص إذا كان الزرار هو زر الصفحة الرئيسية السفلي
+      if (btn.id === "hero-follow-btn-bottom") {
+        btn.innerHTML = mainHeroBadgeHTML;
+      } else {
+        // أي زرار آخر (مثل زر الناف بار) ياخذ نص فقط
+        btn.innerHTML = navbarBadgeHTML;
+      }
+      btn.classList.add("subscribed"); // توحيد الكلاس ليكون subscribed في كل مكان
+    } else {
+      if (btn.id === "hero-follow-btn-bottom") {
+         btn.innerHTML = `+ تابــع`;
+      } else {
+         btn.innerHTML = `<span>تابــع</span>`;
+      }
+      btn.classList.remove("subscribed");
+    }
+  });
+};
+
+// جعل الدالة ومثيلات الفتح متاحة عالمياً على نطاق الـ window لمنع أي تعارض مستقبلي
+window.syncFollowButtonsState = updateFollowButtons;
+window.openFollowPopup = () => {
+  const overlay = document.getElementById("popup-overlay") || document.querySelector(".popup-overlay");
+  const popup = document.getElementById("follow-popup") || document.querySelector(".follow-popup");
+  if (localStorage.getItem("isSubscribed") === "true") return;
+
+  if (overlay && popup) {
+    overlay.classList.add("show", "active", "open");
+    popup.classList.add("show", "active", "open");
+    document.body.style.overflow = "hidden";
+  }
+};
+
+
 // 3️⃣ الدالة المسؤولة عن التوجيه وعرض المحتوى المناسب (The Router)
 const router = () => {
   let currentPath = window.location.pathname;
@@ -53,18 +109,16 @@ const router = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q") || "";
     mainContent.innerHTML = searchpage(query);
+    updateFollowButtons(); 
     finishLoadingBar();
     return;
   }
 
-  // متغير لحفظ المحتوى اللي هيترندر
   let renderedHtml = null;
 
-  // 🎯 التوجيه الذكي الموحد للمطورين، المشاريع، والوسوم باستخدام الـ Username
   if (currentPath.startsWith("/@")) {
-    const username = currentPath.split("/@")[1]?.toLowerCase(); // جلب الـ username بعد الـ @
+    const username = currentPath.split("/@")[1]?.toLowerCase();
     
-    // 1. فحص أولاً إذا كان الـ username يخص شخص (People)
     const person = searchDatabase.find(
       (item) => item.type === "people" && item.username?.toLowerCase() === username
     );
@@ -77,7 +131,6 @@ const router = () => {
       renderedHtml = PersonDetailsPage(person.id);
     }
 
-    // 2. فحص ثانياً إذا كان يخص منتج/مشروع (Products)
     if (!renderedHtml) {
       const product = searchDatabase.find(
         (item) => item.type === "products" && item.username?.toLowerCase() === username
@@ -87,24 +140,20 @@ const router = () => {
       }
     }
 
-    // 3. 🔥 هنا الفكرة: فحص ثالثاً إذا كان يخص وسم أو منشور (Tags)
     if (!renderedHtml) {
       const tag = searchDatabase.find(
         (item) => item.type === "tags" && item.username?.toLowerCase() === username
       );
       if (tag) {
-        // بنجيب محتوى الصفحة هنا وما بنعملش return عشان نسيب الـ router يكمل تدوير للـ Navbar والـ Layout الطبيعي
         renderedHtml = TagDetailsPage(tag.id);
       }
     }
 
-    // لو الـ username مش موجود في السيستم خالص
     if (!renderedHtml) {
       currentPath = "/404";
     }
   }
 
-  // الحفاظ على مسار الـ id القديم للمنتجات والتاغات كـ fallback لضمان عدم حدوث كراش
   if (!renderedHtml && currentPath.startsWith("/product/")) {
     const id = currentPath.split("/")[2];
     renderedHtml = ProductDetailsPage(id);
@@ -115,7 +164,6 @@ const router = () => {
     renderedHtml = TagDetailsPage(id);
   }
 
-  // 4️⃣ رندرة الصفحة النهائية مع الحفاظ الكامل على أساليب الرئيسية والـ Layout والناف بار
   if (renderedHtml) {
     mainContent.innerHTML = renderedHtml;
   } else {
@@ -123,6 +171,8 @@ const router = () => {
     mainContent.innerHTML = typeof activePage === "function" ? activePage() : activePage;
   }
 
+  // 🎯 المزامنة المباشرة بعد رندرة الهوم تمنع عودة الزرار لحالة "تابع" عند الـ Refresh!
+  updateFollowButtons();
   finishLoadingBar();
 };
 
@@ -131,11 +181,9 @@ const navigateTo = (url) => {
   window.history.pushState(null, null, url);
 
   setTimeout(() => {
-    // 🎯 ارفع السكرول لفوق فوراً قبل رندر الصفحة الجديدة مباشرة
     window.scrollTo(0, 0);
-
     router();
-  }, 500); // الـ 500ms بتوع الـ Loading Bar بتوعك زي ما هما
+  }, 500);
 };
 
 // 4️⃣ إعداد منطق محرك البحث الذكي الفوري المطور للموبايل والـ Usernames
@@ -151,18 +199,14 @@ const setupSearch = () => {
     tags: "الوسوم",
   };
 
-  // دالة مساعدة مخصصة لإنشاء الروابط الذكية بالـ Username داخل قائمة السيرش
   const getRouteUrl = (item) => {
-  // لو العنصر عنده username (سواء شخص، منتج، أو وسم منشور) يرجع الرابط الاحترافي فوراً
-  if (item.username) {
-    return `/@${item.username.toLowerCase()}`;
-  }
-  
-  // الـ Fallback المضمون في حال عدم وجود username لأي سبب
-  if (item.type === "people") return `/person/${item.id}`;
-  if (item.type === "products") return `/product/${item.id}`;
-  return `/tag/${item.id}`;
-};
+    if (item.username) {
+      return `/@${item.username.toLowerCase()}`;
+    }
+    if (item.type === "people") return `/person/${item.id}`;
+    if (item.type === "products") return `/product/${item.id}`;
+    return `/tag/${item.id}`;
+  };
 
   input.addEventListener("input", (e) => {
     const value = e.target.value.trim().toLowerCase();
@@ -190,7 +234,6 @@ const setupSearch = () => {
       return;
     }
 
-    // ... الكود القديم لتجميع الـ Categories زي ما هو ...
     let html = "";
     Object.keys(categories).forEach((cat) => {
       const catItems = results.filter((item) => item.type === cat);
@@ -209,7 +252,6 @@ const setupSearch = () => {
       }
     });
 
-    // 🔥 التحديث هنا: تغليف النتائج في حاوية مخصصة للسكرول، والزرار بره ثابت تحتها
     dropdown.innerHTML = `
       <div class="search-results-scrollable">
         ${html}
@@ -222,12 +264,10 @@ const setupSearch = () => {
     dropdown.style.display = "block";
   });
 
-  // 🎯 التحكم عند الضغط على أيقونة البحث
   const handleSearchButtonClick = (e) => {
     e.stopPropagation();
     const query = input.value.trim();
 
-    // 📱 أولاً: منطق الموبايل الشاشات الصغيرة (500px أو أقل)
     if (window.innerWidth <= 500) {
       const isMobileActive = container.classList.contains("mobile-active");
 
@@ -247,7 +287,6 @@ const setupSearch = () => {
       return;
     }
 
-    // 💻 ثانياً: المنطق الأصلي للشاشات الكبيرة (الكمبيوتر والتابلت)
     const isExpanded = container.classList.contains("active");
 
     if (!isExpanded) {
@@ -290,25 +329,15 @@ const setupSearch = () => {
 
 // 5️⃣ الاستماع العام وإدارة الضغطات بـ Event Delegation
 document.addEventListener("DOMContentLoaded", () => {
-  const overlay = document.getElementById("popup-overlay");
-  const popup = document.getElementById("follow-popup");
+  const overlay = document.getElementById("popup-overlay") || document.querySelector(".popup-overlay");
+  const popup = document.getElementById("follow-popup") || document.querySelector(".follow-popup");
 
-  const openPopup = () => {
-    if (overlay && popup) {
-      overlay.classList.add("show");
-      popup.classList.add("show");
-      document.body.style.overflow = "hidden";
-    }
-  };
-
-  // 🛠️ تحديث دالة الإغلاق لتنظيف الكلاسات والخصائص المباشرة معاً لضمان عدم التعليق
   const closePopup = () => {
     if (overlay && popup) {
       overlay.classList.remove("show", "active", "open");
       popup.classList.remove("show", "active", "open");
       document.body.style.overflow = "";
 
-      // إزالة أي ستايلات مضافة يدوياً بـ setProperty من الملفات التانية
       overlay.style.removeProperty("display");
       overlay.style.removeProperty("opacity");
       overlay.style.removeProperty("pointer-events");
@@ -408,6 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const result = await response.json();
 
+        // ❌ إذا كان البريد مسجلاً مسبقاً لا تفعل المتابعة
         if (result.result === "exists") {
           emailError.textContent = "الإيميل مسجل بالفعل";
           emailError.classList.add("show-error");
@@ -416,12 +446,15 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
+        // ✅ تفعيل الاشتراك والمتابعة فقط في حالة النتيجة النجاح الحقيقية
         if (result.result === "success") {
+          localStorage.setItem("isSubscribed", "true"); // توحيد حفظ الحالة
+          updateFollowButtons();
+
           form.style.display = "none";
           if (successMsg) successMsg.style.display = "block";
           form.reset();
 
-          // 💥💥 السحر هنا: إرسال الإشارة فوراً لملف الهوم عشان يعيد جلب العداد لايف بدون ريفريش 💥💥
           window.dispatchEvent(new Event("subscriptionSuccess"));
 
           setTimeout(() => {
@@ -453,101 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (e.target.closest("#follow-btn") || e.target.closest(".open-follow")) {
-      openPopup();
-      return;
-    }
-
-    // 🎯 صيد كليك الإغلاق بدقة باستخدام closest لمنع تداخل الـ SVGs والأيقونات المعلقة
-    const isCloseBtn =
-      e.target.closest("#close-popup-btn") ||
-      e.target.closest(".close-popup-btn") ||
-      e.target.closest(".close-btn") ||
-      e.target.closest("[data-close-popup]");
-
-    if (isCloseBtn || e.target === overlay) {
-      e.preventDefault();
-      e.stopPropagation(); // منع طفو الحدث للملفات الأخرى
-      closePopup();
-      return;
-    }
-
-    if (e.target.matches(".tab-btn")) {
-      const clickedTab = e.target;
-      const tabContainer = clickedTab.closest(".tabs-container");
-      const tabWrapper = tabContainer.nextElementSibling;
-      const targetTabId = clickedTab.dataset.tab;
-
-      tabContainer.querySelectorAll(".tab-btn").forEach((btn) => {
-        btn.style.background = "transparent";
-        btn.style.color = "#555";
-        btn.classList.remove("active");
-      });
-
-      clickedTab.style.background = "var(--mainColor)";
-      clickedTab.style.color = "white";
-      clickedTab.classList.add("active");
-
-      tabWrapper
-        .querySelectorAll(".tab-content")
-        .forEach((content) => (content.style.display = "none"));
-      const targetContent = tabWrapper.querySelector(`#tab-${targetTabId}`);
-      if (targetContent) targetContent.style.display = "block";
-      return;
-    }
-
-    if (e.target.matches("#sort-posts-btn")) {
-      import("/src/pages/home.js").then((module) => { 
-        const btn = e.target;
-        const currentOrder = btn.dataset.order;
-        const nextOrder = currentOrder === "latest" ? "oldest" : "latest";
-
-        btn.dataset.order = nextOrder;
-        if (nextOrder === "latest") {
-          btn.classList.remove("oldest-active"); // شيل لون الـ main color
-          btn.innerHTML = `
-    <span>الأحدث</span>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-  `;
-        } else {
-          btn.classList.add("oldest-active"); // ضيف لون ال--mainColor
-          btn.innerHTML = `
-    <span>الأقدم</span>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-  `;
-        }
-        document.getElementById("person-posts-container").innerHTML =
-          module.renderPersonPosts(personId, nextOrder);
-      });
-      return;
-    }
-
-    if (e.target.matches(".sort-person-posts-btn")) {
-      import("/src/pages/details/personDetails.js").then((module) => {
-        const btn = e.target;
-        const personId = btn.dataset.personId;
-        const currentOrder = btn.dataset.order;
-        const nextOrder = currentOrder === "latest" ? "oldest" : "latest";
-
-        btn.dataset.order = nextOrder;
-        if (nextOrder === "latest") {
-          btn.classList.remove("oldest-active"); // شيل لون الـ main color
-          btn.innerHTML = `
-    <span>الأحدث</span>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-  `;
-        } else {
-          btn.classList.add("oldest-active"); // ضيف لون ال--mainColor
-          btn.innerHTML = `
-    <span>الأقدم</span>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-  `;
-        }
-        document.getElementById("person-posts-container").innerHTML =
-          module.renderPersonPosts(personId, nextOrder);
-      });
-      return;
-    }
+    // تم دمج ونقل منطق تفعيل الفتح والغلق بالكامل للـ Event Listener المشترك لمنع تداخل الأحداث
 
     const link = e.target.closest("[data-link]");
     if (link) {
@@ -563,7 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupSearch();
   handleFormSubmission();
-  router();
+  router(); 
 });
 
 window.addEventListener("popstate", router);

@@ -143,7 +143,7 @@
 .hero-follow-btn {
   font-family: var(--mainFont);
   align-self: flex-start;
-  background: #009d78;
+  background: var(--mainColor);
   color: #ffffff;
   border: none;
   padding: 10px 35px;
@@ -465,8 +465,8 @@
 
 /* تنسيق أزرار المتابعة عند تفعيل الاشتراك */
 .hero-follow-btn.subscribed {
-  background-color: var(--bgColor) !important; /* خلفية خضراء مريحة للعين */
-  color: var(--blackColor) !important;            /* لون النص والأيقونة */
+  background-color: var(--blackColor) !important; /* خلفية خضراء مريحة للعين */
+  color: var(--whiteColor) !important;            /* لون النص والأيقونة */
   border: 1px solid rgba(0, 0, 0, 0.05) !important;
   display: inline-flex;
   align-items: center;
