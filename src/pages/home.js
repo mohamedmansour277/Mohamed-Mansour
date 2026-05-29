@@ -98,9 +98,24 @@ export const renderHomePosts = () => {
 // 📦 دالة رندر المنتجات
 const renderHomeProducts = () => {
   const myProducts = searchDatabase.filter((p) => p.type === "products");
-  const visibleProducts = isAllProductsExpanded
-    ? myProducts
-    : myProducts.slice(0, 6);
+  
+  // 1. لو المتغير true، اعرض كل المنتجات علطول
+  if (isAllProductsExpanded) {
+    return myProducts
+      .map(
+        (prod) => `
+      <a href="/@${prod.username}" class="product-card-item" data-link title="${prod.title}">
+        <img src="${prod.img}" onerror="this.onerror=null; this.src='/src/assets/imgs/nopic.jpg';" alt="${prod.title}">
+      </a>
+    `,
+      )
+      .join("");
+  }
+
+  // 2. 🌟 تحديد الحد الأقصى (Limit) بناءً على عرض الشاشة الحالي
+  // لو الشاشة أقل من 500 بكسل، هيعرض 4 منتجات بس (من 0 لـ 4)، غير كده هيعرض 6 كالعادة
+  const limit = window.innerWidth < 500 ? 4 : 6;
+  const visibleProducts = myProducts.slice(0, limit);
 
   return visibleProducts
     .map(
