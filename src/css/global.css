@@ -1,971 +1,127 @@
-@font-face {
-  font-family: "MohamedFont";
-  src: url("/src/assets/fonts/mohamedFont-Light.ttf");
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: "MohamedFont";
-  src: url("/src/assets/fonts/mohamedFont-Regular.ttf");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "MohamedFont";
-  src: url("/src/assets/fonts/mohamedFont-Medium.ttf");
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: "MohamedFont";
-  src: url("/src/assets/fonts/mohamedFont-SemiBold.ttf");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "MohamedFont";
-  src: url("/src/assets/fonts/mohamedFont-Bold.ttf");
-  font-weight: 700;
-  font-style: normal;
-}
-
-:root {
-  --mainColor: #009d78;
-  --whiteColor: #ffffff;
-  --blackColor: #0a0a0a;
-  --bgColor: #f2f2f2;
-  --mainFont: "MohamedFont", sans-serif;
-  --paddingValue: 11%;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: var(--bgColor);
-  color: var(--blackColor);
-  font-family: var(--mainFont);
-  font-weight: 400;
-  font-style: normal;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* تجبر الجسم إنه ياخد طول الشاشة بالكامل كحد أدنى */
-  margin: 0;
-}
-#main-content {
-  flex: 1 0 auto; /* يخليه يتمدد ويملأ أي مساحة فاضية بين النافبار والفوتر تلقائياً */
-}
-
-/* 🏁 الفوتر هيفضل ثابت تحت مهما حصل */
-.footer {
-  flex-shrink: 0; /* تمنع الفوتر من الانضغاط أو الاختفاء */
-}
-
-/* خط التحميل العلوي المطور */
-#top-loading-bar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(135deg, var(--mainColor), #09c89b);
-  width: 0%;
-  opacity: 0;
-  z-index: 9999;
-  transition:
-    width 0.5s cubic-bezier(0.1, 0.8, 0.3, 1),
-    opacity 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 157, 120, 0.5);
-}
-
-header {
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 12px var(--paddingValue);
-  border-bottom: rgba(0, 0, 0, 0.1) solid 1px;
-  z-index: 1000;
-  background: var(--bgColor);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-nav {
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-links a {
-  color: var(--blackColor);
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover {
-  color: var(--mainColor);
-}
-
-.userLogo {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  transition: opacity 0.2s;
-}
-
-.userLogo .profilePhoto {
-  background: url("/src/assets/imgs/MohamedMansour.JPG") no-repeat;
-  background-size: 50px;
-  background-position: center;
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  margin-left: 10px;
-}
-
-.userLogo h1 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--blackColor);
-}
-
-.searchFollowContainer {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.follow-container {
-  width: fit-content;
-  height: 40px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  background: var(--mainColor); /* الخلفية الخضراء الأصلية */
-  /* 🌟 التعديل السحري: لو الحاوية جواها زرار مشترك، اقلب خلفيتها هي كمان */
-  &:has(.subscribed) {
-    background: transparent !important; /* أو خليه var(--bgColor) حسب رغبتك */
-    border: none !important;
-  }
-
-  button {
-    border-radius: 8px;
-    padding: 0px 15px;
-    width: fit-content;
-    height: 100%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--whiteColor);
-    font-size: 16px;
-    font-weight: 500;
-    font-family: var(--mainFont);
-  }
-}
-
-.follow-container:hover {
-  opacity: 0.9;
-}
-
-.search-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  border-radius: 5px;
-  /* background: rgb(253, 209, 209); */
-  border: 1px solid transparent;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* حالة التنشيط عند الضغط على العدسة */
-
-#search-input {
-  width: 0px;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-  opacity: 0;
-  font-weight: 600;
-  font-size: 0.9rem;
-  direction: rtl;
-  font-family: var(--mainFont);
-  transition:
-    width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.2s ease,
-    padding 0.35s ease;
-}
-
-/* يتمدد بسلاسة */
-.search-container.active #search-input {
-  width: 300px;
-  padding: 6px 12px;
-  opacity: 1;
-}
-
-#search-btn {
-  width: 40px;
-  height: 40px;
-  padding: 10px;
-  background: none;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.05rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-#search-btn:hover {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-/* 🚀 تحديث موضع القائمة المنسدلة لتبق تحت الحاوية تماماً */
-#search-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0; /* لفتح القائمة لليمين متناسقة مع التمدد */
-  width: 100%;
-  max-height: 380px;
-  overflow-y: auto;
-  background: var(--whiteColor);
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  display: none;
-  z-index: 2000;
-  direction: rtl;
-  padding: 8px;
-}
-
-/* تعديل ألوان تصنيفات البحث مع لون هويتك البرمية الرئيسي */
-
-.search-item {
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.search-item:hover {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.search-item img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-left: 10px;
-}
-
-.search-item-info h4 {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--blackColor);
-}
-
-.search-item-info p {
-  margin: 2px 0 0 0;
-  font-size: 0.78rem;
-  color: #666;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* أنيميشن الاهتزاز عند الخطأ والحقل فارغ */
-
-#main-content {
-  width: 100%;
-  /* max-width: 1200px;  */
-  /* margin: auto;  */
-  box-sizing: border-box;
-  padding: 70px 11%;
-}
-
-/* 🌌 طبقة التعتيم الخلفية الفاخرة */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
-  z-index: 2999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-/* 🚀 جسم النافذة المنبثقة (ينبثق من جهة اليسار حيث زر تابع) */
-.follow-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-
-  /* 🎯 السحر هنا: في الحالة المخفية نقوم بإزاحتها إضافياً لأعلى واليسار (-100%، -100%) ونصغر حجمها */
-  transform: translate(-60%, -60%) scale(0.8);
-
-  width: 600px;
-  max-width: 90%;
-  background: #fdfcfa;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  z-index: 3000;
-  padding: 20px;
-  direction: rtl;
-
-  transform-origin: top left;
-
-  opacity: 0;
-  pointer-events: none;
-
-  /* جعل الحركة انسيابية وسريعة لتليق بواجهات الاستخدام الحديثة */
-  transition:
-    transform 0.3s ease,
-    opacity 0.2s ease;
-}
-
-.follow-popup.show {
-  opacity: 1;
-  pointer-events: auto;
-
-  /* 🎯 عند الفتح، تعود للمركز الأصلي المظبوط للمتصفح (-50%، -50%) وتأخذ حجمها الكامل */
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* 🌌 طبقة التعتيم الخلفية عند الفتح */
-.popup-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 8px;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.popup-header h3 {
-  font-size: 22px;
-  margin: 0;
-  font-weight: 700;
-}
-.popup-header p {
-  font-size: 16px;
-  font-weight: 400;
-  margin: 0;
-  color: #555;
-}
-
-#close-popup-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  cursor: pointer;
-  position: absolute;
-  top: 0px;
-  left: -10px; /* ترك مسافة جمالية صغيرة من اليسار ليناسب التصميم الديناميكي */
-  border: none;
-  border-radius: 5px;
-  width: 40px;
-  height: 40px;
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-}
-
-#close-popup-btn div {
-  position: absolute; /* يجعل الخطين يركبان فوق بعضهما تماماً في السنتر */
-  width: 18px;
-  height: 1.5px; /* سمك الخط */
-  background: #555; /* جعل الخطوط باللون الأبيض لتظهر بوضوح فوق الأحمر */
-  border-radius: 2px;
-  transition: background-color 0.2s;
-}
-
-/* الخط الأول: يميل بـ 45 درجة */
-#close-popup-btn div:nth-child(1) {
-  transform: rotate(45deg);
-}
-
-/* الخط الثاني: يميل بـ -45 درجة ليتوجها في تقاطع X مثالي */
-#close-popup-btn div:nth-child(2) {
-  transform: rotate(-45deg);
-}
-
-#close-popup-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-.popup-body p {
-  font-size: 0.85rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.social-links-container {
-  display: flex;
-  gap: 8px;
-}
-.social-item {
-  flex: 1;
-  text-align: center;
-  padding: 8px 0;
-  background: rgba(0, 157, 120, 0.08);
-  color: var(--mainColor, #009d78);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.8rem;
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-.social-item:hover {
-  background: var(--mainColor, #009d78);
-  color: #fff;
-}
-
-/* 📝 تنسيق نموذج الاشتراك (تم تعديله ليحاذي العناصر من الأعلى بثبات) */
-.subscribe-form {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  width: 100%;
-  margin-top: 15px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1; /* لجعل الحقول تتقاسم المساحة بالتساوي */
-}
-
-.input-group label {
-  font-size: 18px;
-  color: var(--blackColor);
-  font-weight: 400;
-  text-align: right;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: inherit;
-  outline: none;
-  transition: all 0.25s ease;
-  background-color: var(--whiteColor);
-}
-.input-group input::placeholder{
-  color: rgb(180, 180, 180);
-}
-/* تأثير الـ Focus عند الضغط على الإدخال */
-.input-group input:focus {
-  border-color: var(--mainColor, #009d78);
-  box-shadow: 0 0 0 3px rgba(0, 157, 120, 0.1);
-}
-.input-group input:hover {
-  border-color: var(--mainColor, #009d78);
-}
-
-/* زر التابع الداخلي الخاص بالـ Form (تم وزن الـ margin-top ليتساوى أفقياً بدقة) */
-#submit-subscribe-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mainFont);
-  background: var(--mainColor, #009d78);
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  height: 40px; /* نفس ارتفاع حقول الإدخال */
-  margin-top: 34px; /* إزاحة علوية توازي مساحة الـ Label والـ Gap المرتفع */
-  white-space: nowrap;
-  transition: all 0.2s ease;
-}
-
-#submit-subscribe-btn:hover {
-  opacity: 0.8;
-}
-
-/* رسالة النجاح */
-.success-message {
-  text-align: center;
-  color: #009d78;
-  font-weight: bold;
-  font-size: 0.9rem;
-  margin: 15px auto 0;
-  padding: 10px 30px;
-  background: rgba(0, 157, 120, 0);
-  width: fit-content;
-  border: rgba(0, 0, 0, 0.1) 1px solid;
-  border-radius: 8px;
-}
-
-/* 📱 متجاوب مع الشاشات الصغيرة (الموبايل) ليصبحوا فوق بعض */
-@media (max-width: 480px) {
-  .subscribe-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  #submit-subscribe-btn {
-    height: 42px;
-    margin-top: 5px;
-  }
-}
-
-footer {
-  margin: auto;
-  width: 78%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 0px;
-  border-top: rgba(0, 0, 0, 0.1) 1px solid;
-}
-
-/* تنسيق رسائل التحذير تحت الحقول */
-.error-note {
-  color: #ff6363;
-  font-size: 16px;
-  font-weight: 400;
-  margin-top: 0px;
-  text-align: right;
-  display: block;
-  min-height: 16px; /* تحافظ على مكانها لكي لا تهتز العناصر عند الظهور */
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-/* حالة إظهار الخطأ */
-.error-note.show-error {
-  opacity: 1;
-}
-
-.success-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px; /* مسافة بين الصح والكلمة */
-}
-
-.success-icon {
-  width: 18px;
-  height: 18px;
-  color: #009d78; /* نفس لون الـ mainColor الخاص بك */
-}
-
-/* 📱 تنسيقات الموبايل المخصصة لشاشات 500px أو أقل */
-
-/* --- تنسيقات صفحة تفاصيل المنتج --- */
-
-/* حاوية الصفحة تماماً مثل الهوم */
-.details-wrapper {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: right;
-  font-family: inherit;
-  box-sizing: border-box;
-}
-
-/* لكات المنتج (social) أقصى الشمال */
-.hero-name-details {
-  position: relative;
-  flex: 1;
-}
-
-/* لضمان تناسق موضع اللنكات على الـ Desktop */
-@media (min-width: 769px) {
-  .product-links {
-    position: absolute;
-    left: 0;
-    top: 4px;
-    display: flex;
-    gap: 16px;
-  }
-}
-
-/* تنسيق البايو في صفحة المنتج */
-.product-bio {
-  max-width: 750px;
-  margin: 6px 0 0 0 !important;
-  color: #555 !important;
-}
-
-/* تنسيق شارات الإحصائيات */
-.stat-badge {
-  /* background: #000; */
-  /* color: #fff; */
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 50px;
-}
-
-.tools-badge {
-  background: #009d78;
-}
-
-.date-badge {
-  background: var(--bgColor);
-  color: var(--mainColor);
-}
-/* تنسيقات الـ Tabs لأزرار المنتج */
-.details-tabs {
-  display: flex;
-  gap: 8px;
-}
-
-.tabs-btn {
-  font-family: "MohamedFont", sans-serif;
-  border: none;
-  background: transparent;
-  padding: 6px 16px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #0a0a0a;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.tabs-btn.active {
-  background: var(--mainColor); /* لون التنشيط الأخضر */
-  font-weight: 700;
-  color: #fff;
-}
-
-/* تنسيقات شبكة الفريق والأدوات */
-.team-grid-layout {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.team-member-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--bgColor);
-  /* border-radius: 12px; */
-  padding: 10px 0px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.team-photo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.team-text {
-  flex: 1;
-  text-align: right;
-}
-
-.team-text h5 {
-  color: #222;
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.team-text p {
-  display: none;
-  color: #777;
-  font-size: 0.85rem;
-  margin: 4px 0 0 0;
-}
-
-/* تنسيق شارات الأدوات التاج */
-.tools-flex-layout {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.product-tool-tag {
-  display: inline-flex;
-  font-size: 16px;
-  font-weight: 500;
-  align-items: center;
-  gap: 10px;
-  background: var(--bgColor);
-  padding: 10px 0px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-.product-tool-tag .tag-icon {
-  width: 16px;
-  height: 16px;
-  object-fit: contain;
-}
-/* نصوص الفكرة */
-.product-concept-text {
-  font-size: 1.05rem;
-  color: #555;
-  line-height: 1.8;
-  text-align: justify;
-}
-
-/* الستايل الأساسي لزرار الذهاب للموقع */
-.product-live-btn {
-  border: none;
-  background: var(--mainColor);
-  color: var(--whiteColor);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 8px; /* ليأخذ الشكل الدائري المتناسق مع الهوية */
-  opacity: 1;
-  cursor: pointer;
-  font-family: var(--mainFont);
-  align-self: flex-start;
-  padding: 10px 35px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* التأثير عند تمرير الماوس في الوضع العادي */
-.product-live-btn:not(.disabled-link):hover {
-  background: #008364;
-}
-
-/* 🚫 حالة الزرار الباهت لما يكون اللنك مش موجود */
-.disabled-link {
-  background-color: var(--mainColor); /* لون رمادي باهت */
-  color: var(--whiteColor); /* لون كلام باهت */
-  opacity: 0.8;
-  cursor: not-allowed; /* شكل الدائرة الحمراء/الممنوع للمؤشر */
-  pointer-events: auto; /* يضمن إن الماوس يلقط الحركة وتظهر العلامة والنص البديل */
-  transform: none;
-  box-shadow: none;
-}
-
-/* 🎯 إخفاء الأرقام من كل التبويبات كوضع افتراضي */
-.details-tabs .tabs-btn .tab-count {
-  display: none;
-}
-
-/* 🌟 إظهار الرقم فقط جوة التبويب اللي عليه كلاس active */
-.details-tabs .tabs-btn.active .tab-count {
-  display: inline-block;
-}
-
-/* تجاوب الموبايل للصفحة */
-@media (max-width: 1000px) {
-  .team-grid-layout {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-/* تجاوب الموبايل للصفحة */
-@media (max-width: 768px) {
-  .details-wrapper .user-avatar-frame {
-    border-radius: 50%;
-  }
-  .tools-flex-layout {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .team-grid-layout {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-@media (max-width: 500px) {
-  :root {
-    --paddingValue: 8%;
-  }
-  .tools-flex-layout {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  header {
-    padding: 10px 8%;
-  }
-  #main-content {
-    padding: 50px 8%;
-  }
-  footer p {
-    font-size: 14px;
-  }
-  .userLogo h1 {
-    font-size: 16px;
-  }
-  /* جعل حاوية البحث تأخذ وضعاً عادياً في الهيدر حتى يتم تفعيل كلاس النزول */
-  .search-container {
-    position: relative;
-    transition: all 0s;
-  }
-  #search-input {
-    transition: all 0s;
-  }
-  #search-btn {
-    transition: all 0s;
-  }
-
-  .search-container.mobile-active {
-    position: absolute;
-    top: 70px; /* 📐 اضبط هذا الرقم حسب ارتفاع الناف بار عندك ليصبح تحته بـ 10px بالضبط */
-    left: 0px;
-    right: 0px;
-    margin: auto;
-    width: calc(100% - calc(var(--paddingValue) * 2));
-    z-index: 999;
-    background: var(--whiteColor); /* لمسة Glassmorphism فاخرة */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
-    padding: 4px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    display: flex !important;
-  }
-
-  /* إجبار الإدخال على الظهور كاملاً داخل الحاوية المطلقة */
-  .search-container.mobile-active #search-input {
-    display: block !important;
-    width: 100% !important;
-    opacity: 1 !important;
-    padding: 10px 14px;
-    background: transparent;
-    border: none;
-    transition: all 0s;
-  }
-
-  /* 🎯 جعل قائمة نتائج البحث (الدروب داون) تظهر أسفل الشريط بـ 10px مسافة هادئة */
-  .search-container.mobile-active #search-dropdown {
-    position: absolute;
-    top: calc(100% + 10px) !important; /* بعد الشريط بـ 10 بكسل هندسياً */
-    left: 0;
-    right: 0;
-    width: 100% !important;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    background: #ffffff;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-}
-
-
-/* زرار عرض كل النتائج في أسفل قائمة البحث الفوري */
-/* 1. تحديث الـ Dropdown الرئيسي */
-#search-dropdown {
- position: absolute;
-  top: 100%;
-  right: 0;
-  width: 100%;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden; 
-  z-index: 999;
-  /* 🔥 التعديل هنا: إخفاء تام لمنع ظهور الـ 5px */
-  display: none; 
-  flex-direction: column;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  box-sizing: border-box;
-}
-
-/* 2. حاوية السكرول للنتائج فقط */
-.search-results-scrollable {
-  max-height: 280px; /* المقاس المثالي للموبايل عشان ما ياكلش الشاشة */
-  overflow-y: auto;  /* تشغيل السكرول هنا بس */
-  width: 100%;
-}
-
-/* 3. زرار "عرض كل النتائج" الثابت في القاع */
-.view-all-results-btn {
-  
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 14px 16px;
-  margin: 0px auto;
-  background: var(--blackColor); /* لون يفصله عن كروت البحث */
-  /* border-top: 1px solid rgba(0, 0, 0, 0.08); */
-  text-decoration: none;
-  color: var(--whiteColor);
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 0.92rem;
-  box-sizing: border-box;
-  z-index: 2; /* يضمن ظهوره فوق نصوص السكرول */
-}
-
-.view-all-results-btn:hover {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.view-all-results-btn svg {
-  transition: transform 0.2s ease;
-}
-
-.view-all-results-btn:hover svg {
-  transform: translateX(-4px); /* الـ Micro-interaction اللطيف */
-}
-
-
-/* مثال لستايل الزرار عند المتابعة الفعالة */
-.subscribed {
-  background-color: var(--blackColor) !important; 
-  color: var(--whiteColor) !important;            
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  cursor: default;
-}
-
-/* 📱 تنسيقات الموبايل المتجاوبة */
+@font-face{font-family:"MohamedFont";src:url("/src/assets/fonts/mohamedFont-Light.ttf");font-weight:300;font-style:normal;}
+@font-face{font-family:"MohamedFont";src:url("/src/assets/fonts/mohamedFont-Regular.ttf");font-weight:400;font-style:normal;}
+@font-face{font-family:"MohamedFont";src:url("/src/assets/fonts/mohamedFont-Medium.ttf");font-weight:500;font-style:normal;}
+@font-face{font-family:"MohamedFont";src:url("/src/assets/fonts/mohamedFont-SemiBold.ttf");font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:"MohamedFont";src:url("/src/assets/fonts/mohamedFont-Bold.ttf");font-weight:700;font-style:normal;}
+:root{--mainColor:#009d78;--whiteColor:#ffffff;--blackColor:#0a0a0a;--bgColor:#f2f2f2;--mainFont:"MohamedFont",sans-serif;--paddingValue:11%;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bgColor);color:var(--blackColor);font-family:var(--mainFont);font-weight:400;font-style:normal;display:flex;flex-direction:column;min-height:100vh;margin:0;}
+#main-content{flex:1 0 auto;}
+.footer{flex-shrink:0;}
+#top-loading-bar{position:fixed;top:0;right:0;height:3px;background:linear-gradient(135deg,var(--mainColor),#09c89b);width:0%;opacity:0;z-index:9999;transition:width 0.5s cubic-bezier(0.1,0.8,0.3,1),opacity 0.3s ease;box-shadow:0 0 10px rgba(0,157,120,0.5);}
+header{display:flex;justify-content:center;position:fixed;top:0;left:0;width:100%;padding:12px var(--paddingValue);border-bottom:rgba(0,0,0,0.1) solid 1px;z-index:1000;background:var(--bgColor);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+nav{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;}
+.nav-links a{color:var(--blackColor);margin:0 15px;text-decoration:none;font-weight:bold;transition:color 0.2s;}
+.nav-links a:hover{color:var(--mainColor);}
+.userLogo{display:flex;align-items:center;cursor:pointer;user-select:none;transition:opacity 0.2s;}
+.userLogo .profilePhoto{background:url("/src/assets/imgs/MohamedMansour.JPG") no-repeat;background-size:50px;background-position:center;border-radius:50%;height:40px;width:40px;margin-left:10px;}
+.userLogo h1{font-size:20px;font-weight:700;color:var(--blackColor);}
+.searchFollowContainer{display:flex;align-items:center;gap:10px;}
+.follow-container{width:fit-content;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;background:var(--mainColor);
+&:has(.subscribed){background:transparent!important;border:none!important;}
+button{border-radius:8px;padding:0px 15px;width:fit-content;height:100%;background:transparent;border:none;cursor:pointer;color:var(--whiteColor);font-size:16px;font-weight:500;font-family:var(--mainFont);}
+}
+.follow-container:hover{opacity:0.9;}
+.search-container{position:relative;display:flex;align-items:center;border-radius:5px;border:1px solid transparent;transition:all 0.35s cubic-bezier(0.4,0,0.2,1);}
+#search-input{width:0px;padding:0;border:none;outline:none;background:transparent;opacity:0;font-weight:600;font-size:0.9rem;direction:rtl;font-family:var(--mainFont);transition:width 0.35s cubic-bezier(0.4,0,0.2,1),opacity 0.2s ease,padding 0.35s ease;}
+.search-container.active #search-input{width:300px;padding:6px 12px;opacity:1;}
+#search-btn{width:40px;height:40px;padding:10px;background:none;border:none;border-radius:5px;cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:background 0.3s ease;}
+#search-btn:hover{background:rgba(0,0,0,0.04);}
+#search-dropdown{position:absolute;top:calc(100% + 8px);left:0;width:100%;max-height:380px;overflow-y:auto;background:var(--whiteColor);border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.12);border:1px solid rgba(0,0,0,0.06);display:none;z-index:2000;direction:rtl;padding:8px;}
+.search-item{display:flex;align-items:center;padding:8px;text-decoration:none;border-radius:8px;transition:background 0.2s;}
+.search-item:hover{background:rgba(0,0,0,0.04);}
+.search-item img{width:38px;height:38px;border-radius:50%;object-fit:cover;margin-left:10px;}
+.search-item-info h4{margin:0;font-size:0.9rem;color:var(--blackColor);}
+.search-item-info p{margin:2px 0 0 0;font-size:0.78rem;color:#666;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+#main-content{width:100%;box-sizing:border-box;padding:70px 11%;}
+.popup-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.1);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);z-index:2999;opacity:0;pointer-events:none;transition:opacity 0.3s ease;}
+.follow-popup{position:fixed;top:50%;left:50%;transform:translate(-60%,-60%) scale(0.8);width:600px;max-width:90%;background:#fdfcfa;border:1px solid rgba(0,0,0,0.1);box-shadow:0 20px 50px rgba(0,0,0,0.15);border-radius:12px;z-index:3000;padding:20px;direction:rtl;transform-origin:top left;opacity:0;pointer-events:none;transition:transform 0.3s ease,opacity 0.2s ease;}
+.follow-popup.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+.popup-overlay.show{opacity:1;pointer-events:auto;}
+.popup-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,0.1);padding-bottom:8px;margin-bottom:15px;position:relative;}
+.popup-header h3{font-size:22px;margin:0;font-weight:700;}
+.popup-header p{font-size:16px;font-weight:400;margin:0;color:#555;}
+#close-popup-btn{display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;position:absolute;top:0px;left:-10px;border:none;border-radius:5px;width:40px;height:40px;transition:background-color 0.2s ease,transform 0.1s ease;}
+#close-popup-btn div{position:absolute;width:18px;height:1.5px;background:#555;border-radius:2px;transition:background-color 0.2s;}
+#close-popup-btn div:nth-child(1){transform:rotate(45deg);}
+#close-popup-btn div:nth-child(2){transform:rotate(-45deg);}
+#close-popup-btn:hover{background:rgba(0,0,0,0.05);}
+.popup-body p{font-size:0.85rem;color:#555;line-height:1.6;margin-bottom:15px;}
+.social-links-container{display:flex;gap:8px;}
+.social-item{flex:1;text-align:center;padding:8px 0;background:rgba(0,157,120,0.08);color:var(--mainColor,#009d78);text-decoration:none;font-weight:600;font-size:0.8rem;border-radius:6px;transition:all 0.2s;}
+.social-item:hover{background:var(--mainColor,#009d78);color:#fff;}
+.subscribe-form{display:flex;align-items:flex-start;gap:12px;width:100%;margin-top:15px;}
+.input-group{display:flex;flex-direction:column;gap:6px;flex:1;}
+.input-group label{font-size:18px;color:var(--blackColor);font-weight:400;text-align:right;}
+.input-group input{width:100%;padding:10px 14px;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-size:15px;font-family:inherit;outline:none;transition:all 0.25s ease;background-color:var(--whiteColor);}
+.input-group input::placeholder{color:rgb(180,180,180);}
+.input-group input:focus{border-color:var(--mainColor,#009d78);box-shadow:0 0 0 3px rgba(0,157,120,0.1);}
+.input-group input:hover{border-color:var(--mainColor,#009d78);}
+#submit-subscribe-btn{display:flex;align-items:center;justify-content:center;font-family:var(--mainFont);background:var(--mainColor,#009d78);color:#ffffff;border:none;padding:10px 20px;border-radius:8px;font-size:16px;font-weight:400;cursor:pointer;height:40px;margin-top:34px;white-space:nowrap;transition:all 0.2s ease;}
+#submit-subscribe-btn:hover{opacity:0.8;}
+.success-message{text-align:center;color:#009d78;font-weight:bold;font-size:0.9rem;margin:15px auto 0;padding:10px 30px;background:rgba(0,157,120,0);width:fit-content;border:rgba(0,0,0,0.1) 1px solid;border-radius:8px;}
+@media (max-width:480px){
+.subscribe-form{flex-direction:column;align-items:stretch;}
+#submit-subscribe-btn{height:42px;margin-top:5px;}
+}
+footer{margin:auto;width:78%;display:flex;justify-content:center;align-items:center;padding:15px 0px;border-top:rgba(0,0,0,0.1) 1px solid;}
+.error-note{color:#ff6363;font-size:16px;font-weight:400;margin-top:0px;text-align:right;display:block;min-height:16px;opacity:0;transition:opacity 0.2s ease;}
+.error-note.show-error{opacity:1;}
+.success-content{display:flex;align-items:center;justify-content:center;gap:8px;}
+.success-icon{width:18px;height:18px;color:#009d78;}
+.details-wrapper{width:100%;max-width:1200px;margin:0 auto;text-align:right;font-family:inherit;box-sizing:border-box;}
+.hero-name-details{position:relative;flex:1;}
+@media (min-width:769px){
+.product-links{position:absolute;left:0;top:4px;display:flex;gap:16px;}
+}
+.product-bio{max-width:750px;margin:6px 0 0 0!important;color:#555!important;}
+.stat-badge{font-size:0.75rem;font-weight:700;padding:4px 14px;border-radius:50px;}
+.tools-badge{background:#009d78;}
+.date-badge{background:var(--bgColor);color:var(--mainColor);}
+.details-tabs{display:flex;gap:8px;}
+.tabs-btn{font-family:"MohamedFont",sans-serif;border:none;background:transparent;padding:6px 16px;font-size:16px;font-weight:500;color:#0a0a0a;cursor:pointer;border-radius:6px;transition:all 0.2s ease;}
+.tabs-btn.active{background:var(--mainColor);font-weight:700;color:#fff;}
+.team-grid-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;}
+.team-member-card{display:flex;align-items:center;gap:10px;background:var(--bgColor);padding:10px 0px;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.05);}
+.team-photo{width:50px;height:50px;border-radius:50%;object-fit:cover;}
+.team-text{flex:1;text-align:right;}
+.team-text h5{color:#222;font-size:16px;font-weight:700;margin:0;display:flex;align-items:center;gap:6px;}
+.team-text p{display:none;color:#777;font-size:0.85rem;margin:4px 0 0 0;}
+.tools-flex-layout{display:grid;grid-template-columns:repeat(3,1fr);flex-wrap:wrap;gap:10px;}
+.product-tool-tag{display:inline-flex;font-size:16px;font-weight:500;align-items:center;gap:10px;background:var(--bgColor);padding:10px 0px;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.05);}
+.product-tool-tag .tag-icon{width:16px;height:16px;object-fit:contain;}
+.product-concept-text{font-size:1.05rem;color:#555;line-height:1.8;text-align:justify;}
+.product-live-btn{border:none;background:var(--mainColor);color:var(--whiteColor);text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-radius:8px;opacity:1;cursor:pointer;font-family:var(--mainFont);align-self:flex-start;padding:10px 35px;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.2s ease;}
+.product-live-btn:not(.disabled-link):hover{background:#008364;}
+.disabled-link{background-color:var(--mainColor);color:var(--whiteColor);opacity:0.8;cursor:not-allowed;pointer-events:auto;transform:none;box-shadow:none;}
+.details-tabs .tabs-btn .tab-count{display:none;}
+.details-tabs .tabs-btn.active .tab-count{display:inline-block;}
+@media (max-width:1000px){
+.team-grid-layout{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:768px){
+.details-wrapper .user-avatar-frame{border-radius:50%;}
+.tools-flex-layout{display:grid;grid-template-columns:repeat(2,1fr);flex-wrap:wrap;gap:10px;}
+.team-grid-layout{grid-template-columns:repeat(1,1fr);}
+}
+@media (max-width:500px){
+:root{--paddingValue:8%;}
+.tools-flex-layout{display:grid;grid-template-columns:repeat(1,1fr);flex-wrap:wrap;gap:10px;}
+header{padding:10px 8%;}
+#main-content{padding:50px 8%;}
+footer p{font-size:14px;}
+.userLogo h1{font-size:16px;}
+.search-container{position:relative;transition:all 0s;}
+#search-input{transition:all 0s;}
+#search-btn{transition:all 0s;}
+.search-container.mobile-active{position:absolute;top:70px;left:0px;right:0px;margin:auto;width:calc(100% - calc(var(--paddingValue) * 2));z-index:999;background:var(--whiteColor);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:4px;box-shadow:0 8px 32px rgba(0,0,0,0.1);display:flex!important;}
+.search-container.mobile-active #search-input{display:block!important;width:100%!important;opacity:1!important;padding:10px 14px;background:transparent;border:none;transition:all 0s;}
+.search-container.mobile-active #search-dropdown{position:absolute;top:calc(100% + 10px)!important;left:0;right:0;width:100%!important;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.08);background:#ffffff;max-height:300px;overflow-y:auto;}
+}
+#search-dropdown{position:absolute;top:100%;right:0;width:100%;background:white;border-radius:12px;overflow:hidden;z-index:999;display:none;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,0.12);box-sizing:border-box;}
+.search-results-scrollable{max-height:280px;overflow-y:auto;width:100%;}
+.view-all-results-btn{position:sticky;bottom:0;left:0;width:100%;display:flex;justify-content:center;align-items:center;padding:14px 16px;margin:0px auto;background:var(--blackColor);text-decoration:none;color:var(--whiteColor);border-radius:8px;font-weight:bold;font-size:0.92rem;box-sizing:border-box;z-index:2;}
+.view-all-results-btn:hover{background:rgba(0,0,0,0.7);}
+.view-all-results-btn svg{transition:transform 0.2s ease;}
+.view-all-results-btn:hover svg{transform:translateX(-4px);}
+.subscribed{background-color:var(--blackColor)!important;color:var(--whiteColor)!important;border:1px solid rgba(0,0,0,0.05)!important;display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:default;}

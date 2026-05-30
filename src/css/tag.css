@@ -1,165 +1,20 @@
-/* ==========================================================================
-   Boutique Post & Tag Details Style - Mohamed Mansour
-   ========================================================================== */
-
-.tag-isolated-wrapper {
-  max-width: 1000px;
-  margin: 40px auto 20px auto;
-  padding: 0 24px;
-  text-align: right;
-  direction: rtl;
-  font-family: var(--mainFont);
-  box-sizing: border-box;
-}
-
-/* فئة التصنيف العلوي */
-/* العنوان الأساسي الريسبونسيف */
-.tag-title-block h1 {
-  /* clamp تخلي الخط يصغر لحد 1.8rem في الشاشات الصغيرة ويكبر لحد 2.6rem في الشاشات الكبيرة تلقائياً */
-  font-size: clamp(1.8rem, 5vw, 2.6rem);
-  font-weight: 800;
-  color: #111111;
-  margin: 0 0 0px 0; /* قللنا الهامش السفلي عشان الفئة قريبة منه */
-  line-height: 1.35;
-  letter-spacing: -0.02em;
-  word-wrap: break-word; /* أمان إضافي عشان الكلمات الطويلة متخرجش برا الشاشة */
-}
-.category-wrapper-block {
-  /* background-color: red; */
-  display: block;
-  width: 100%;
-  padding: 0px 0px 10px;
-}
-.author-wrapper-block {
-  display: block;
-  width: 100%;
-  text-align: right;
-  /* background-color: red; */
-  border-bottom: rgba(0, 0, 0, 0.1) 1px solid;
-}
-/* فئة التصنيف بعد ما نزلت تحت */
-.post-category-tag {
-  display: inline-block;
-  font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.5);
-  padding: 15px 0px;
-  border-radius: 20px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-/* بلوك كاتب المقال */
-.post-author-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  background: transparent;
-  margin-bottom: 20px;
-  transition: opacity 0.2s ease;
-}
-
-
-.post-author-link img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-}
-
-.author-info-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  text-align: right;
-}
-
-.author-info-text .name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--mainColor);
-}
-
-.author-info-text .date {
-  font-size: 16px;
-  color: #999999;
-  font-weight: 400;
-}
-
-/* الخط الفاصل */
-.post-divider {
-  border: 0;
-  border-top: 1px solid #eeeeee;
-  margin: 0 0 0 0;
-}
-
-/* جسم المقال والـ Typography Mode */
-.post-main-article {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  color: #2c3e50;
-  font-weight: 400;
-  text-align: justify;
-  letter-spacing: -0.01em;
-  margin-top: 20px;
-}
-
-/* الاقتباس أو النص المميز */
-.post-featured-quote {
-  border-right: 4px solid var(--mainColor, #00adb5);
-  background: #fafafa;
-  padding: 18px 22px;
-  border-radius: 4px 12px 12px 4px;
-  margin-bottom: 30px;
-  font-weight: 600;
-  color: #111111;
-  font-size: 1.25rem;
-  line-height: 1.7;
-  text-align: right;
-}
-
-/* مساحة النصوص والفقرات المفتوحة */
-.post-paragraph {
-  margin-bottom: 10px;
-  /* color: red; */
-  font-weight: 400;
-  /* white-space: pre-line; */
-}
-
-/* النقاط المرتبة */
-.post-bullet-list {
-  margin: 25px 24px 25px 0;
-  padding: 0;
-  list-style-type: square;
-  color: #444444;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  text-align: right;
-}
-
-.post-bullet-list li {
-  line-height: 1.6;
-}
-
-/* تذييل الصفحة وزر العودة */
-.post-footer-section {
-  margin-top: 60px;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 25px;
-  text-align: right;
-}
-
-@media (max-width: 500px) {
-  .post-main-article {
-  font-size: 16px;
-  line-height: 1.9;
-  color: #2c3e50;
-  font-weight: 400 ;
-  text-align: justify;
-  letter-spacing: -0.01em;
-  margin-top: 20px;
-}
-  
+.tag-isolated-wrapper{max-width:1000px;margin:40px auto 20px auto;padding:0 24px;text-align:right;direction:rtl;font-family:var(--mainFont);box-sizing:border-box;}
+.tag-title-block h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800;color:#111111;margin:0 0 0px 0;line-height:1.35;letter-spacing:-0.02em;word-wrap:break-word;}
+.category-wrapper-block{display:block;width:100%;padding:0px 0px 10px;}
+.author-wrapper-block{display:block;width:100%;text-align:right;border-bottom:rgba(0,0,0,0.1) 1px solid;}
+.post-category-tag{display:inline-block;font-size:0.85rem;color:rgba(0,0,0,0.5);padding:15px 0px;border-radius:20px;font-weight:700;letter-spacing:-0.01em;}
+.post-author-link{display:inline-flex;align-items:center;gap:14px;text-decoration:none;background:transparent;margin-bottom:20px;transition:opacity 0.2s ease;}
+.post-author-link img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:1px solid #eaeaea;box-shadow:0 4px 10px rgba(0,0,0,0.03);}
+.author-info-text{display:flex;flex-direction:column;gap:4px;text-align:right;}
+.author-info-text .name{font-size:1.1rem;font-weight:700;color:var(--mainColor);}
+.author-info-text .date{font-size:16px;color:#999999;font-weight:400;}
+.post-divider{border:0;border-top:1px solid #eeeeee;margin:0 0 0 0;}
+.post-main-article{font-size:1.2rem;line-height:1.8;color:#2c3e50;font-weight:400;text-align:justify;letter-spacing:-0.01em;margin-top:20px;}
+.post-featured-quote{border-right:4px solid var(--mainColor,#00adb5);background:#fafafa;padding:18px 22px;border-radius:4px 12px 12px 4px;margin-bottom:30px;font-weight:600;color:#111111;font-size:1.25rem;line-height:1.7;text-align:right;}
+.post-paragraph{margin-bottom:10px;font-weight:400;}
+.post-bullet-list{margin:25px 24px 25px 0;padding:0;list-style-type:square;color:#444444;display:flex;flex-direction:column;gap:12px;text-align:right;}
+.post-bullet-list li{line-height:1.6;}
+.post-footer-section{margin-top:60px;border-top:1px solid #f0f0f0;padding-top:25px;text-align:right;}
+@media (max-width:500px){
+.post-main-article{font-size:16px;line-height:1.9;color:#2c3e50;font-weight:400;text-align:justify;letter-spacing:-0.01em;margin-top:20px;}
 }

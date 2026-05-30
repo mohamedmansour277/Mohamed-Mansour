@@ -111,9 +111,6 @@ const renderHomeProducts = () => {
       )
       .join("");
   }
-
-  // 2. 🌟 تحديد الحد الأقصى (Limit) بناءً على عرض الشاشة الحالي
-  // لو الشاشة أقل من 500 بكسل، هيعرض 4 منتجات بس (من 0 لـ 4)، غير كده هيعرض 6 كالعادة
   const limit = window.innerWidth < 500 ? 4 : 6;
   const visibleProducts = myProducts.slice(0, limit);
 
@@ -128,7 +125,6 @@ const renderHomeProducts = () => {
     .join("");
 };
 
-// 🔄 دالة تشغيل المستمعات
 export const initHomeListeners = () => {
   fetchLiveFollowers();
 
@@ -153,10 +149,8 @@ export const initHomeListeners = () => {
           p.title.includes("رياضة")),
     ).length;
 
-  // 🎯 المستمع العام المطور لإظهار وإغلاق الـ Popup بسلاسة ودون تعليق
   if (!window.hasFollowListener) {
     document.addEventListener("click", (e) => {
-      // رصد أي زر يحمل الـ ID أو الكلاسات الخاصة بالمتابعة في الرئيسية أو الناف بار
       const followBtnBottom = e.target.closest("#hero-follow-btn-bottom") || e.target.closest("#follow-btn") || e.target.closest(".open-follow") || e.target.closest(".follow-btn");
 
       // 1. منطق الفتح عند الضغط على زر المتابعة (فقط لو مش subscribed)

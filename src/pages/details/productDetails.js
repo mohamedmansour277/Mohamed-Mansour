@@ -83,14 +83,13 @@ export const ProductDetailsPage = (id) => {
           <div class="hero-name-details">
             <div class="hero-name-row">
               <h1>${product.title}</h1>
-              ${
-                product.isOwner === true || product.details?.isOwner === true
-                  ? `
+              ${product.isOwner === true || product.details?.isOwner === true
+      ? `
                 <svg class="verified-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.92 8.6 1.5 6.71 4.7l-3.61.81.34 3.68L1 12l2.44 2.79-.34 3.69 3.61.82 1.89 3.2 3.4-1.42 3.4 1.41 1.89-3.2 3.61-.82-.34-3.68L23 12zm-13 5l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
                 </svg>`
-                  : ""
-              }
+      : ""
+    }
             </div>
             
             <div class="hero-stats-row">
@@ -100,51 +99,46 @@ export const ProductDetailsPage = (id) => {
             </div>
 
             <div class="social-left-aside product-links">
-              ${
-                d.githubLink &&
-                d.githubLink.trim() !== "" &&
-                d.githubLink !== "#"
-                  ? `<a href="${d.githubLink}" target="_blank" title="GitHub">
+              ${d.githubLink &&
+      d.githubLink.trim() !== "" &&
+      d.githubLink !== "#"
+      ? `<a href="${d.githubLink}" target="_blank" title="GitHub">
                        <img width="24" height="24" src="/src/assets/icons/github.svg" alt="GitHub">
                      </a>`
-                  : ""
-              }
-              ${
-                d.linkedinLink &&
-                d.linkedinLink.trim() !== "" &&
-                d.linkedinLink !== "#"
-                  ? `<a href="${d.linkedinLink}" target="_blank" title="LinkedIn">
+      : ""
+    }
+              ${d.linkedinLink &&
+      d.linkedinLink.trim() !== "" &&
+      d.linkedinLink !== "#"
+      ? `<a href="${d.linkedinLink}" target="_blank" title="LinkedIn">
                       <img width="24" height="24" src="/src/assets/icons/linkedin.svg" alt="LinkedIn">
                      </a>`
-                  : ""
-              }
-              ${
-                d.facebookLink &&
-                d.facebookLink.trim() !== "" &&
-                d.facebookLink !== "#"
-                  ? `<a href="${d.facebookLink}" target="_blank" title="Facebook">
+      : ""
+    }
+              ${d.facebookLink &&
+      d.facebookLink.trim() !== "" &&
+      d.facebookLink !== "#"
+      ? `<a href="${d.facebookLink}" target="_blank" title="Facebook">
                       <img width="24" height="24" src="/src/assets/icons/facebook.svg" alt="Instagram"> 
                      </a>`
-                  : ""
-              }
-              ${
-                d.instagramLink &&
-                d.instagramLink.trim() !== "" &&
-                d.instagramLink !== "#"
-                  ? `<a href="${d.instagramLink}" target="_blank" title="Instagram">
+      : ""
+    }
+              ${d.instagramLink &&
+      d.instagramLink.trim() !== "" &&
+      d.instagramLink !== "#"
+      ? `<a href="${d.instagramLink}" target="_blank" title="Instagram">
                       <img width="24" height="24" src="/src/assets/icons/instagram.svg" alt="Instagram">
                      </a>`
-                  : ""
-              }
-              ${
-                d.tiktokLink &&
-                d.tiktokLink.trim() !== "" &&
-                d.tiktokLink !== "#"
-                  ? `<a href="${d.tiktokLink}" target="_blank" title="TikTok">
+      : ""
+    }
+              ${d.tiktokLink &&
+      d.tiktokLink.trim() !== "" &&
+      d.tiktokLink !== "#"
+      ? `<a href="${d.tiktokLink}" target="_blank" title="TikTok">
                        <img width="24" height="24" src="/src/assets/icons/tiktok.svg" alt="TikTok">
                      </a>`
-                  : ""
-              }
+      : ""
+    }
             </div>
 
             <p class="hero-bio-text product-bio">${product.desc}</p>
@@ -152,15 +146,14 @@ export const ProductDetailsPage = (id) => {
         </div>
 
         <div class="hero-bottom-content" style="display: flex; justify-content: flex-start; width: 100%;">
-          ${
-            d.liveUrl && d.liveUrl.trim() !== "" && d.liveUrl !== "#"
-              ? `<a href="${d.liveUrl}" target="_blank" class="product-live-btn">
+          ${d.liveUrl && d.liveUrl.trim() !== "" && d.liveUrl !== "#"
+      ? `<a href="${d.liveUrl}" target="_blank" class="product-live-btn">
                    <span>الذهاب للموقع</span>
                  </a>`
-              : `<a href="javascript:void(0)" class="product-live-btn disabled-link" title="رابط الموقع غير متوفر حالياً">
+      : `<a href="javascript:void(0)" class="product-live-btn disabled-link" title="رابط الموقع غير متوفر حالياً">
                    <span> غير متوفر</span>
                  </a>`
-          }
+    }
         </div>
       </section>
 

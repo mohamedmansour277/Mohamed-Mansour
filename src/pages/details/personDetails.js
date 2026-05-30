@@ -1,6 +1,5 @@
 import { searchDatabase } from "../../data/searchData.js";
 
-// 🎯 دالة مساعدة لإنشاء المسار الذكي بناءً على وجود الـ username أو الـ id
 const getSmartRoute = (item, fallbackType) => {
   if (item.username) {
     return `/@${item.username.toLowerCase()}`;
@@ -32,15 +31,14 @@ export const renderPersonPosts = (personId, sortOrder = "latest") => {
       : new Date(a.date) - new Date(b.date);
   });
 
-  // 🎯 دالة داخلية لتحويل صيغة التاريخ من قاعدة البيانات إلى اللغة العربية فوراً
   const formatDateToArabic = (dateString) => {
     const dateObj = new Date(dateString);
-    if (isNaN(dateObj.getTime())) return dateString; // حماية في حال كان التاريخ المكتوب غير صالح
-    
-    return new Intl.DateTimeFormat('ar-EG', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    if (isNaN(dateObj.getTime())) return dateString;
+
+    return new Intl.DateTimeFormat("ar-EG", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     }).format(dateObj);
   };
 
@@ -64,14 +62,12 @@ export const renderPersonPosts = (personId, sortOrder = "latest") => {
     .join("");
 };
 
-// 🎯 دالة مساعدة لإنشاء كروت المنتجات مع عرض روابط السوشيال ميديا الخاصة بكل منتج ديناميكياً
 const generateProductsHtml = (products) => {
   return products
     .map((prod) => {
       const pd = prod.details;
       let socialIconsHtml = "";
 
-      // فحص جلب الروابط بنفس المفاتيح المستخدمة في صفحة الـ Product الشهيرة عندك
       if (pd) {
         socialIconsHtml = `
           <div class="product-card-social-links">
@@ -104,13 +100,12 @@ export const PersonDetailsPage = (id) => {
     return `<div class="error-view"><h1>هذا الشخص غير موجود!</h1></div>`;
 
   const d = person.details;
-  // جلب كل المنتجات اللي العضو مشترك فيها
+
   const personProducts = searchDatabase.filter(
     (item) =>
       item.type === "products" && item.details.teamIds.includes(person.id),
   );
 
-  // 🎯 إعداد وضع الـ "عرض الكل" (بشكل افتراضي بنعرض أول 6 مشاريع فقط)
   const LIMIT = 6;
   const hasMoreThanLimit = personProducts.length > LIMIT;
   const initialProducts = hasMoreThanLimit
@@ -118,15 +113,15 @@ export const PersonDetailsPage = (id) => {
     : personProducts;
   const productsHtml = generateProductsHtml(initialProducts);
 
-  // 📋 جلب المنشورات لمعرفة الطول والـ Fallback للـ Navbar
   const checkPosts = searchDatabase.filter(
     (item) => item.type === "tags" && item.authorId == person.id,
   );
   const isFallbackDisabled = checkPosts.length === 0 ? "disabled" : "";
 
-  // ⚡ ربط الـ Event Listener ديناميكياً بعد الريندر للتحكم في عرض المزيد/الأقل بنفس حركة الرئيسية
   setTimeout(() => {
-    const toggleProductsBtn = document.getElementById("toggle-person-products-btn");
+    const toggleProductsBtn = document.getElementById(
+      "toggle-person-products-btn",
+    );
     const gridLayout = document.querySelector(".products-grid-layout");
 
     if (toggleProductsBtn && gridLayout) {
@@ -142,7 +137,7 @@ export const PersonDetailsPage = (id) => {
 
         setTimeout(() => {
           isExpanded = !isExpanded;
-          
+
           if (isExpanded) {
             gridLayout.innerHTML = generateProductsHtml(personProducts);
             toggleProductsBtn.innerHTML = `<span>عرض أقل</span>`;
@@ -152,7 +147,7 @@ export const PersonDetailsPage = (id) => {
             toggleProductsBtn.innerHTML = `<span>عرض الكل</span>`;
             toggleProductsBtn.classList.remove("less-active");
           }
-          
+
           toggleProductsBtn.style.pointerEvents = "auto";
         }, 300);
       });
@@ -170,7 +165,7 @@ export const PersonDetailsPage = (id) => {
                 ${
                   d.isOwner
                     ? `
-                <svg class="verified-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="verified-icon" xmlns="http:
                   <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.92 8.6 1.5 6.71 4.7l-3.61.81.34 3.68L1 12l2.44 2.79-.34 3.69 3.61.82 1.89 3.2 3.4-1.42 3.4 1.41 1.89-3.2 3.61-.82-.34-3.68L23 12zm-13 5l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
                 </svg>`
                     : ""

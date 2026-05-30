@@ -92,7 +92,6 @@ window.openFollowPopup = () => {
 };
 
 
-// 3️⃣ الدالة المسؤولة عن التوجيه وعرض المحتوى المناسب (The Router)
 const router = () => {
   let currentPath = window.location.pathname;
   const mainContent = document.getElementById("main-content");
