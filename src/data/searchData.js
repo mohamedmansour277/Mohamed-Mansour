@@ -250,7 +250,7 @@ export const searchDatabase = [
     title: "عمر محمود الليثي",
     username: "omar-mahmoud",
     desc: "عمر محمود الليثي omar mahmoud",
-    img: "https://media.licdn.com/dms/image/v2/D4D03AQGiU9MiWitJZA/profile-displayphoto-crop_800_800/B4DZ2bw4B0I4AQ-/0/1776434791376?e=1781136000&v=beta&t=0ZYCYqy_WKZ0Qg100eSbgqIRWjCTap2iuWR4KS1MO-8",
+    img: "https://media.licdn.com/dms/image/v2/D4D03AQGiU9MiWitJZA/profile-displayphoto-scale_200_200/B4DZ2bw4B0I4Ag-/0/1776434791478?e=1783555200&v=beta&t=sAxS5FZDAvsyuErrek3hIQq0SUIA7-a1EW4yXgCXLjQ",
     facebookLink: "",
     instagramLink: "",
     linkedinLink: "https://www.linkedin.com/in/omar-ellithey/",
