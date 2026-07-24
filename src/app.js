@@ -14,6 +14,125 @@ const pages = {
   "/404": NotFoundPage,
 };
 
+// ─── دالة إنشاء الفقاعات الإشعارية (للأخطاء التقنية فقط) ────────────────
+const showToast = (message, type = "info", duration = 3000) => {
+  let toastContainer = document.getElementById("toast-container");
+  if (!toastContainer) {
+    toastContainer = document.createElement("div");
+    toastContainer.id = "toast-container";
+    toastContainer.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      direction: rtl;
+    `;
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement("div");
+  toast.style.cssText = `
+    background: ${type === "error" ? "#ef4444" : "#1f2937"};
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 99px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+  `;
+  
+  toast.innerText = message;
+  toastContainer.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0) scale(1)";
+  });
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(10px) scale(0.95)";
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+};
+
+// ─── 💬 فقاعة تأكيد إلغاء المتابعة المخصصة (بديل الـ confirm) ──────────────
+const showConfirmBubble = (message, onConfirm) => {
+  const existingBubble = document.getElementById("confirm-bubble");
+  if (existingBubble) existingBubble.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "confirm-bubble";
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    direction: rtl;
+  `;
+
+  const card = document.createElement("div");
+  card.style.cssText = `
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px;
+    width: 90%;
+    max-width: 340px;
+    text-align: center;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+    transform: scale(0.9);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  `;
+
+  card.innerHTML = `
+    <p style="margin: 0 0 20px 0; font-size: 1rem; color: #1f2937; font-weight: 600; line-height: 1.5;">${message}</p>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+      <button id="confirm-yes-btn" style="font-family: var(--mainFont); flex: 1; padding: 10px ; border: none; background: #0b0a0a; color: white; border-radius: 8px; font-weight: bold; cursor: pointer;">إلغاء المتابعة</button>
+      <button id="confirm-no-btn" style="font-family: var(--mainFont); flex: 1; padding: 10px; border: 1px solid #e5e7eb; background: #f9fafb; color: #374151; border-radius: 8px; font-weight: bold; cursor: pointer;">تراجع</button>
+    </div>
+  `;
+
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+
+  requestAnimationFrame(() => {
+    overlay.style.opacity = "1";
+    card.style.transform = "scale(1)";
+  });
+
+  const close = () => {
+    overlay.style.opacity = "0";
+    card.style.transform = "scale(0.9)";
+    setTimeout(() => overlay.remove(), 250);
+  };
+
+  card.querySelector("#confirm-yes-btn").onclick = () => {
+    close();
+    onConfirm();
+  };
+  card.querySelector("#confirm-no-btn").onclick = close;
+  overlay.onclick = (e) => { if (e.target === overlay) close(); };
+};
+
 // ─── دالات التحكم في خط التحميل العلوي (TOP LOADING BAR) ─────────────────
 const startLoadingBar = () => {
   const bar = document.getElementById("top-loading-bar");
@@ -37,15 +156,10 @@ const finishLoadingBar = () => {
 // ─────────────────────────────────────────────────────────────────────────
 
 // 🌟 [دالة تحديث أزرار المتابعة الموحدة والستايل المشترك]
-// 🌟 [دالة تحديث أزرار المتابعة الموحدة والستايل المشترك بدون علامة صح في الناف بار]
 const updateFollowButtons = () => {
-  // توحيد قراءة المفتاح ليطابق home.js وهو isSubscribed
   const isSubscribed = localStorage.getItem("isSubscribed") === "true";
-  
-  // لقط كل أزرار المتابعة المتاحة في الـ DOM
   const followButtons = document.querySelectorAll("#follow-btn, .open-follow, .follow-btn, #hero-follow-btn-bottom");
   
-  // الكود الخاص بزر الصفحة الرئيسية (يحتوي على علامة الصح)
   const mainHeroBadgeHTML = `
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px; display: inline-block; vertical-align: middle;">
       <polyline points="20 6 9 17 4 12"></polyline>
@@ -53,19 +167,18 @@ const updateFollowButtons = () => {
     <span>متابع</span>
   `;
 
-  // الكود الخاص بزر الناف بار (نص فقط "متابع" بدون أيقونة الصح)
   const navbarBadgeHTML = `<span>متابع</span>`;
 
   followButtons.forEach((btn) => {
+    if (btn.id === "submit-subscribe-btn") return;
+
     if (isSubscribed) {
-      // فحص إذا كان الزرار هو زر الصفحة الرئيسية السفلي
       if (btn.id === "hero-follow-btn-bottom") {
         btn.innerHTML = mainHeroBadgeHTML;
       } else {
-        // أي زرار آخر (مثل زر الناف بار) ياخذ نص فقط
         btn.innerHTML = navbarBadgeHTML;
       }
-      btn.classList.add("subscribed"); // توحيد الكلاس ليكون subscribed في كل مكان
+      btn.classList.add("subscribed");
     } else {
       if (btn.id === "hero-follow-btn-bottom") {
          btn.innerHTML = `+ تابــع`;
@@ -77,13 +190,12 @@ const updateFollowButtons = () => {
   });
 };
 
-// جعل الدالة ومثيلات الفتح متاحة عالمياً على نطاق الـ window لمنع أي تعارض مستقبلي
 window.syncFollowButtonsState = updateFollowButtons;
-window.openFollowPopup = () => {
-  const overlay = document.getElementById("popup-overlay") || document.querySelector(".popup-overlay");
-  const popup = document.getElementById("follow-popup") || document.querySelector(".follow-popup");
-  if (localStorage.getItem("isSubscribed") === "true") return;
 
+window.openFollowPopup = () => {
+  const overlay = document.getElementById("popup-overlay");
+  const popup = document.getElementById("follow-popup");
+  
   if (overlay && popup) {
     overlay.classList.add("show", "active", "open");
     popup.classList.add("show", "active", "open");
@@ -91,7 +203,18 @@ window.openFollowPopup = () => {
   }
 };
 
+window.closeFollowPopup = () => {
+  const overlay = document.getElementById("popup-overlay");
+  const popup = document.getElementById("follow-popup");
 
+  if (overlay && popup) {
+    overlay.classList.remove("show", "active", "open");
+    popup.classList.remove("show", "active", "open");
+    document.body.style.overflow = "auto";
+  }
+};
+
+// 3️⃣ الراوتر لتغيير الصفحات بدون إعادة تحميل (SPA Router)
 const router = () => {
   let currentPath = window.location.pathname;
   const mainContent = document.getElementById("main-content");
@@ -107,7 +230,7 @@ const router = () => {
   if (currentPath.startsWith("/search")) {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q") || "";
-    mainContent.innerHTML = searchpage(query);
+    if (mainContent) mainContent.innerHTML = searchpage(query);
     updateFollowButtons(); 
     finishLoadingBar();
     return;
@@ -163,14 +286,15 @@ const router = () => {
     renderedHtml = TagDetailsPage(id);
   }
 
-  if (renderedHtml) {
-    mainContent.innerHTML = renderedHtml;
-  } else {
-    const activePage = pages[currentPath] || pages["/404"];
-    mainContent.innerHTML = typeof activePage === "function" ? activePage() : activePage;
+  if (mainContent) {
+    if (renderedHtml) {
+      mainContent.innerHTML = renderedHtml;
+    } else {
+      const activePage = pages[currentPath] || pages["/404"];
+      mainContent.innerHTML = typeof activePage === "function" ? activePage() : activePage;
+    }
   }
 
-  // 🎯 المزامنة المباشرة بعد رندرة الهوم تمنع عودة الزرار لحالة "تابع" عند الـ Refresh!
   updateFollowButtons();
   finishLoadingBar();
 };
@@ -182,15 +306,17 @@ const navigateTo = (url) => {
   setTimeout(() => {
     window.scrollTo(0, 0);
     router();
-  }, 500);
+  }, 300);
 };
 
-// 4️⃣ إعداد منطق محرك البحث الذكي الفوري المطور للموبايل والـ Usernames
+// 4️⃣ إعداد محرك البحث
 const setupSearch = () => {
   const input = document.getElementById("search-input");
   const dropdown = document.getElementById("search-dropdown");
   const btn = document.getElementById("search-btn");
   const container = document.querySelector(".search-container");
+
+  if (!input || !dropdown || !btn || !container) return;
 
   const categories = {
     people: "الأشخاص",
@@ -219,7 +345,7 @@ const setupSearch = () => {
     const results = searchDatabase.filter(
       (item) =>
         item.title.toLowerCase().includes(value) ||
-        item.desc.toLowerCase().includes(value),
+        item.desc?.toLowerCase().includes(value)
     );
 
     if (results.length === 0) {
@@ -263,13 +389,12 @@ const setupSearch = () => {
     dropdown.style.display = "block";
   });
 
-  const handleSearchButtonClick = (e) => {
+  btn.addEventListener("click", (e) => {
     e.stopPropagation();
     const query = input.value.trim();
 
     if (window.innerWidth <= 500) {
       const isMobileActive = container.classList.contains("mobile-active");
-
       if (!isMobileActive) {
         container.classList.add("mobile-active");
         input.focus();
@@ -287,7 +412,6 @@ const setupSearch = () => {
     }
 
     const isExpanded = container.classList.contains("active");
-
     if (!isExpanded) {
       container.classList.add("active");
       input.focus();
@@ -303,9 +427,7 @@ const setupSearch = () => {
         }, 500);
       }
     }
-  };
-
-  btn.addEventListener("click", handleSearchButtonClick);
+  });
 
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter" && input.value.trim()) {
@@ -326,157 +448,150 @@ const setupSearch = () => {
   });
 };
 
-// 5️⃣ الاستماع العام وإدارة الضغطات بـ Event Delegation
+// 5️⃣ ربط أحداث الـ Validation والـ Dynamic Delegation
 document.addEventListener("DOMContentLoaded", () => {
-  const overlay = document.getElementById("popup-overlay") || document.querySelector(".popup-overlay");
-  const popup = document.getElementById("follow-popup") || document.querySelector(".follow-popup");
-
-  const closePopup = () => {
-    if (overlay && popup) {
-      overlay.classList.remove("show", "active", "open");
-      popup.classList.remove("show", "active", "open");
-      document.body.style.overflow = "";
-
-      overlay.style.removeProperty("display");
-      overlay.style.removeProperty("opacity");
-      overlay.style.removeProperty("pointer-events");
-
-      popup.style.removeProperty("display");
-      popup.style.removeProperty("opacity");
-      popup.style.removeProperty("visibility");
-      popup.style.removeProperty("z-index");
-      popup.style.removeProperty("top");
-      popup.style.removeProperty("left");
-      popup.style.removeProperty("transform");
-    }
+  
+  const validateEmailFormat = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // 🎯 معالجة إرسال نموذج الاشتراك الفوري والتحقق المطور من البيانات
-  const handleFormSubmission = () => {
-    const form = document.getElementById("newsletter-form");
-    const successMsg = document.getElementById("subscribe-success-msg");
-    const submitBtn = document.getElementById("submit-subscribe-btn");
+  document.body.addEventListener("input", (e) => {
+    if (e.target.id === "user-name") {
+      const nameInput = e.target;
+      const nameError = document.getElementById("name-error");
+      const value = nameInput.value.trim();
+      const hasEnglish = /[a-zA-Z]/.test(value);
 
-    if (!form) return;
+      if (nameError) {
+        if (hasEnglish) {
+          nameError.textContent = "بالعربي الله يخليك";
+          nameError.classList.add("show-error");
+        } else {
+          nameError.classList.remove("show-error");
+          nameError.textContent = "";
+        }
+      }
+    }
 
+    if (e.target.id === "user-email") {
+      const emailInput = e.target;
+      const emailError = document.getElementById("email-error");
+      const value = emailInput.value.trim();
+
+      if (emailError) {
+        if (value.length > 0 && validateEmailFormat(value)) {
+          emailError.classList.remove("show-error");
+          emailError.textContent = "";
+        }
+      }
+    }
+  });
+
+  document.body.addEventListener("submit", async (e) => {
+    if (e.target.id !== "newsletter-form") return;
+    
+    e.preventDefault();
+    const form = e.target;
     const nameInput = document.getElementById("user-name");
     const emailInput = document.getElementById("user-email");
     const nameError = document.getElementById("name-error");
     const emailError = document.getElementById("email-error");
+    const submitBtn = document.getElementById("submit-subscribe-btn");
 
-    const validateEmailFormat = (email) => {
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return regex.test(email);
-    };
+    let isValid = true;
+    const nameValue = nameInput ? nameInput.value.trim() : "";
+    const emailValue = emailInput ? emailInput.value.trim() : "";
 
-    nameInput.addEventListener("input", () => {
-      const value = nameInput.value.trim();
-      const hasEnglish = /[a-zA-Z]/.test(value);
-
-      if (hasEnglish) {
-        nameError.textContent = "بالعربي الله يخليك";
-        nameError.classList.add("show-error");
-      } else {
-        nameError.classList.remove("show-error");
-        nameError.textContent = "";
-      }
-    });
-
-    emailInput.addEventListener("input", () => {
-      const value = emailInput.value.trim();
-      if (value.length > 0 && validateEmailFormat(value)) {
-        emailError.classList.remove("show-error");
-        emailError.textContent = "";
-      }
-    });
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      let isValid = true;
-      const nameValue = nameInput.value.trim();
-      const emailValue = emailInput.value.trim();
-
-      if (nameValue === "") {
+    if (nameValue === "") {
+      if (nameError) {
         nameError.textContent = "اسمك الأول يا حبيب";
         nameError.classList.add("show-error");
-        isValid = false;
-      } else if (/[a-zA-Z]/.test(nameValue)) {
+      }
+      isValid = false;
+    } else if (/[a-zA-Z]/.test(nameValue)) {
+      if (nameError) {
         nameError.textContent = "بالعربي الله يخليك";
         nameError.classList.add("show-error");
-        isValid = false;
       }
+      isValid = false;
+    }
 
-      if (emailValue === "") {
+    if (emailValue === "") {
+      if (emailError) {
         emailError.textContent = "ممكن بريدك";
         emailError.classList.add("show-error");
-        isValid = false;
-      } else if (!validateEmailFormat(emailValue)) {
+      }
+      isValid = false;
+    } else if (!validateEmailFormat(emailValue)) {
+      if (emailError) {
         emailError.textContent = "اكتب البريد بصيغة صحيحة";
         emailError.classList.add("show-error");
-        isValid = false;
       }
+      isValid = false;
+    }
 
-      if (!isValid) return;
+    if (!isValid) return;
 
+    let originalText = "";
+    if (submitBtn) {
       submitBtn.disabled = true;
-      const originalText = submitBtn.innerHTML;
+      originalText = submitBtn.innerHTML;
       submitBtn.innerHTML = "<span>جاري الحفظ...</span>";
+    }
 
-      const data = new FormData(form);
+    const data = new FormData(form);
 
-      try {
-        const urlEncodedData = new URLSearchParams(data).toString();
+    try {
+      const urlEncodedData = new URLSearchParams(data).toString();
 
-        const response = await fetch(form.action, {
-          method: form.method,
-          body: urlEncodedData,
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        });
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: urlEncodedData,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        // ❌ إذا كان البريد مسجلاً مسبقاً لا تفعل المتابعة
-        if (result.result === "exists") {
+      if (result.result === "exists") {
+        if (emailError) {
           emailError.textContent = "الإيميل مسجل بالفعل";
           emailError.classList.add("show-error");
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
-          return;
         }
-
-        // ✅ تفعيل الاشتراك والمتابعة فقط في حالة النتيجة النجاح الحقيقية
-        if (result.result === "success") {
-          localStorage.setItem("isSubscribed", "true"); // توحيد حفظ الحالة
-          updateFollowButtons();
-
-          form.style.display = "none";
-          if (successMsg) successMsg.style.display = "block";
-          form.reset();
-
-          window.dispatchEvent(new Event("subscriptionSuccess"));
-
-          setTimeout(() => {
-            closePopup();
-            setTimeout(() => {
-              form.style.display = "flex";
-              if (successMsg) successMsg.style.display = "none";
-              submitBtn.disabled = false;
-              submitBtn.innerHTML = originalText;
-            }, 400);
-          }, 3500);
-        } else {
-          alert("عذراً، حدث خطأ أثناء حفظ البيانات.");
+        if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalText;
         }
-      } catch (error) {
-        alert("فشل الاتصال، يرجى التحقق من جودة الإنترنت لديك.");
+        return;
+      }
+
+      if (result.result === "success") {
+        localStorage.setItem("isSubscribed", "true");
+        updateFollowButtons();
+
+        form.reset();
+        window.dispatchEvent(new Event("subscriptionSuccess"));
+
+        // إغلاق البوب أب بدون رسائل إشعار
+        window.closeFollowPopup();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      } else {
+        showToast("عذراً، حدث خطأ أثناء حفظ البيانات.", "error");
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      }
+    } catch (error) {
+      showToast("فشل الاتصال، يرجى التحقق من جودة الإنترنت لديك.", "error");
+      if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
       }
-    });
-  };
+    }
+  });
 
   document.body.addEventListener("click", (e) => {
     if (e.target.closest(".userLogo")) {
@@ -485,22 +600,53 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // تم دمج ونقل منطق تفعيل الفتح والغلق بالكامل للـ Event Listener المشترك لمنع تداخل الأحداث
+    const followBtnTarget = e.target.closest("#follow-btn, .open-follow, .follow-btn, #hero-follow-btn-bottom");
+
+    if (followBtnTarget) {
+      if (e.target.id === "submit-subscribe-btn" || e.target.closest("#submit-subscribe-btn")) {
+        return;
+      }
+
+      e.preventDefault();
+
+      const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+
+      if (isSubscribed) {
+        // 🎯 فتح فقاعة التأكيد المخصصة بدلاً من confirm المتصفح
+        showConfirmBubble("هل تريد إلغاء متابعة محمد منصور؟", () => {
+          localStorage.removeItem("isSubscribed");
+          updateFollowButtons();
+        });
+        return;
+      }
+
+      window.openFollowPopup();
+      return;
+    }
+
+    if (
+      e.target.closest("#close-popup-btn") || 
+      e.target.closest(".close-popup") || 
+      e.target.classList.contains("popup-overlay")
+    ) {
+      window.closeFollowPopup();
+      return;
+    }
 
     const link = e.target.closest("[data-link]");
     if (link) {
       e.preventDefault();
-      document.getElementById("search-dropdown").style.display = "none";
+      const dropdown = document.getElementById("search-dropdown");
+      if (dropdown) dropdown.style.display = "none";
       navigateTo(link.getAttribute("href"));
     }
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closePopup();
+    if (e.key === "Escape") window.closeFollowPopup();
   });
 
   setupSearch();
-  handleFormSubmission();
   router(); 
 });
 
