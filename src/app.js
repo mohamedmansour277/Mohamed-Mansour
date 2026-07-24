@@ -37,10 +37,10 @@ const showToast = (message, type = "info", duration = 3000) => {
 
   const toast = document.createElement("div");
   toast.style.cssText = `
-    background: ${type === "error" ? "#ef4444" : "#1f2937"};
+    background: ${type === "error" ? "#0a0a0a" : "#1f2937"};
     color: #fff;
     padding: 12px 20px;
-    border-radius: 99px;
+    border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
@@ -106,7 +106,7 @@ const showConfirmBubble = (message, onConfirm) => {
   card.innerHTML = `
     <p style="margin: 0 0 20px 0; font-size: 1rem; color: #1f2937; font-weight: 600; line-height: 1.5;">${message}</p>
     <div style="display: flex; gap: 10px; justify-content: center;">
-      <button id="confirm-yes-btn" style="font-family: var(--mainFont); flex: 1; padding: 10px ; border: none; background: #0b0a0a; color: white; border-radius: 8px; font-weight: bold; cursor: pointer;">إلغاء المتابعة</button>
+      <button id="confirm-yes-btn" style="font-family: var(--mainFont); flex: 1; padding: 10px ; border: none; background: #0a0a0a; color: white; border-radius: 8px; font-weight: bold; cursor: pointer;">إلغاء المتابعة</button>
       <button id="confirm-no-btn" style="font-family: var(--mainFont); flex: 1; padding: 10px; border: 1px solid #e5e7eb; background: #f9fafb; color: #374151; border-radius: 8px; font-weight: bold; cursor: pointer;">تراجع</button>
     </div>
   `;
