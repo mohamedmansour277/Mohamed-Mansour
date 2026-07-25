@@ -285,7 +285,7 @@ export const searchDatabase = [
     title: "آدم محمد سلامة",
     username: "adam-mohamed",
     desc: "ادم محمد سلامة adam mohamed",
-    img: "https://ibb.co/jZ6gR9LJ",
+    img: "https://i.ibb.co/bRWzJjrb/1768206831689.jpg",
     facebookLink: "",
     instagramLink: "",
     linkedinLink: "https://www.linkedin.com/in/adam-mohamed-0255932b8/",
